@@ -18,6 +18,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            transition: 0.3s;
         }
         .container {
             max-width: 550px;
@@ -27,12 +28,11 @@
             padding: 35px 30px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
             transition: 0.3s;
         }
         .logo {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .logo h1 {
             font-size: 26px;
@@ -49,6 +49,34 @@
             margin-top: 6px;
             border-top: 2px solid #f0f2f5;
             padding-top: 10px;
+        }
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .lang-btn {
+            padding: 6px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 40px;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: 0.2s;
+            color: #1e2a3a;
+        }
+        .lang-btn:hover {
+            border-color: #c8902d;
+            background: #fcf9f2;
+        }
+        .lang-btn.active {
+            border-color: #c8902d;
+            background: #c8902d;
+            color: #fff;
         }
         .form-group {
             margin-bottom: 18px;
@@ -183,11 +211,6 @@
         .footer i {
             color: #c8902d;
         }
-        @media (max-width: 480px) {
-            .container { padding: 20px; }
-            .logo h1 { font-size: 22px; }
-        }
-        /* spinner */
         .spinner {
             display: inline-block;
             width: 20px;
@@ -200,92 +223,97 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        @media (max-width: 480px) {
+            .container { padding: 20px; }
+            .logo h1 { font-size: 22px; }
+            .lang-btn { padding: 4px 12px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="logo">
-        <h1>🏛️ فالنسيا <span>للرخام</span></h1>
-        <p>تقديم طلب إلى إدارة الموارد البشرية</p>
+        <h1>🏛️ فالنسيا <span id="brandName">للرخام</span></h1>
+        <p id="subtitle">تقديم طلب إلى إدارة الموارد البشرية</p>
     </div>
 
-    <!-- منطقة عرض الرسائل -->
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ar">🇸🇦 العربية</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        <button class="lang-btn" data-lang="ur">🇵🇰 اُردو</button>
+    </div>
+
+    <!-- Alert Container -->
     <div id="alertContainer"></div>
 
     <form id="requestForm" enctype="multipart/form-data">
-        <!-- الاسم -->
         <div class="form-group">
-            <label for="name">👤 الاسم الكامل <span class="required">*</span></label>
-            <input type="text" id="name" name="name" required placeholder="أدخل اسمك الثلاثي">
+            <label for="name" data-i18n="nameLabel">👤 الاسم الكامل <span class="required">*</span></label>
+            <input type="text" id="name" name="name" required placeholder="أدخل اسمك الثلاثي" data-i18n-placeholder="namePlaceholder">
         </div>
 
-        <!-- رقم الهاتف -->
         <div class="form-group">
-            <label for="phone">📞 رقم الهاتف</label>
-            <input type="tel" id="phone" name="phone" placeholder="مثال: 0501234567">
+            <label for="phone" data-i18n="phoneLabel">📞 رقم الهاتف</label>
+            <input type="tel" id="phone" name="phone" placeholder="مثال: 0501234567" data-i18n-placeholder="phonePlaceholder">
         </div>
 
-        <!-- القسم -->
         <div class="form-group">
-            <label for="department">🏢 القسم</label>
+            <label for="department" data-i18n="deptLabel">🏢 القسم</label>
             <select id="department" name="department">
-                <option value="">-- اختر القسم --</option>
-                <option value="المبيعات">المبيعات</option>
-                <option value="المستودعات">المستودعات</option>
-                <option value="المشاريع">المشاريع</option>
-                <option value="الرخام">الرخام</option>
-                <option value="المحاسبة">المحاسبة</option>
-                <option value="الآليات">الآليات</option>
-                <option value="التصميم">التصميم</option>
-                <option value="التسويق">التسويق</option>
-                <option value="أخرى">أخرى</option>
+                <option value="" data-i18n="deptDefault">-- اختر القسم --</option>
+                <option value="المبيعات" data-i18n="deptSales">المبيعات</option>
+                <option value="المستودعات" data-i18n="deptWarehouse">المستودعات</option>
+                <option value="المشاريع" data-i18n="deptProjects">المشاريع</option>
+                <option value="الرخام" data-i18n="deptMarble">الرخام</option>
+                <option value="المحاسبة" data-i18n="deptFinance">المحاسبة</option>
+                <option value="الآليات" data-i18n="deptVehicles">الآليات</option>
+                <option value="التصميم" data-i18n="deptDesign">التصميم</option>
+                <option value="التسويق" data-i18n="deptMarketing">التسويق</option>
+                <option value="أخرى" data-i18n="deptOther">أخرى</option>
             </select>
         </div>
 
-        <!-- نوع الطلب -->
         <div class="form-group">
-            <label for="request_type">📌 نوع الطلب</label>
+            <label for="request_type" data-i18n="typeLabel">📌 نوع الطلب</label>
             <select id="request_type" name="request_type">
-                <option value="">-- اختر نوع الطلب --</option>
-                <option value="إجازة">إجازة</option>
-                <option value="سلفة مالية">سلفة مالية</option>
-                <option value="استفسار">استفسار</option>
-                <option value="شكوى">شكوى</option>
-                <option value="مقترح">مقترح</option>
-                <option value="تحديث بيانات">تحديث بيانات</option>
-                <option value="طلب مستند">طلب مستند</option>
-                <option value="أخرى">أخرى</option>
+                <option value="" data-i18n="typeDefault">-- اختر نوع الطلب --</option>
+                <option value="إجازة" data-i18n="typeLeave">إجازة</option>
+                <option value="سلفة مالية" data-i18n="typeLoan">سلفة مالية</option>
+                <option value="استفسار" data-i18n="typeInquiry">استفسار</option>
+                <option value="شكوى" data-i18n="typeComplaint">شكوى</option>
+                <option value="مقترح" data-i18n="typeSuggestion">مقترح</option>
+                <option value="تحديث بيانات" data-i18n="typeDataUpdate">تحديث بيانات</option>
+                <option value="طلب مستند" data-i18n="typeDocRequest">طلب مستند</option>
+                <option value="أخرى" data-i18n="typeOther">أخرى</option>
             </select>
         </div>
 
-        <!-- الموضوع -->
         <div class="form-group">
-            <label for="subject">📝 الموضوع <span class="required">*</span></label>
-            <input type="text" id="subject" name="subject" required placeholder="عنوان مختصر للطلب">
+            <label for="subject" data-i18n="subjectLabel">📝 الموضوع <span class="required">*</span></label>
+            <input type="text" id="subject" name="subject" required placeholder="عنوان مختصر للطلب" data-i18n-placeholder="subjectPlaceholder">
         </div>
 
-        <!-- التفاصيل -->
         <div class="form-group">
-            <label for="details">📄 التفاصيل <span class="required">*</span></label>
-            <textarea id="details" name="details" required placeholder="اكتب طلبك بالتفصيل..."></textarea>
+            <label for="details" data-i18n="detailsLabel">📄 التفاصيل <span class="required">*</span></label>
+            <textarea id="details" name="details" required placeholder="اكتب طلبك بالتفصيل..." data-i18n-placeholder="detailsPlaceholder"></textarea>
         </div>
 
-        <!-- رفع ملف -->
         <div class="form-group">
-            <label for="attachment">📎 إرفاق ملف (اختياري)</label>
+            <label for="attachment" data-i18n="fileLabel">📎 إرفاق ملف (اختياري)</label>
             <div class="file-input-wrapper">
                 <span class="file-icon"><i class="fas fa-cloud-upload-alt"></i></span>
-                <span class="file-label" id="fileLabel">اختر ملف... (صور، PDF، Word)</span>
+                <span class="file-label" id="fileLabel" data-i18n="fileDefault">اختر ملف... (صور، PDF، Word)</span>
                 <input type="file" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx">
             </div>
         </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn">
+        <button type="submit" class="btn-submit" id="submitBtn" data-i18n="submitBtn">
             <i class="fas fa-paper-plane"></i> إرسال الطلب
         </button>
     </form>
 
-    <div class="footer">
+    <div class="footer" data-i18n="footerText">
         <i class="fas fa-lock"></i> يتم إرسال طلبك بشكل آمن ومباشر إلى الإدارة عبر تليجرام
     </div>
 </div>
@@ -295,18 +323,289 @@
 
 <script>
     (function() {
-        // 🔑 بيانات التليجرام (استبدل بالقيم الخاصة بك)
+        // ============================================================
+        //  بيانات الترجمة (العربية، الإنجليزية، الأوردو)
+        // ============================================================
+        const TRANSLATIONS = {
+            ar: {
+                brandName: 'للرخام',
+                subtitle: 'تقديم طلب إلى إدارة الموارد البشرية',
+                nameLabel: '👤 الاسم الكامل *',
+                namePlaceholder: 'أدخل اسمك الثلاثي',
+                phoneLabel: '📞 رقم الهاتف',
+                phonePlaceholder: 'مثال: 0501234567',
+                deptLabel: '🏢 القسم',
+                deptDefault: '-- اختر القسم --',
+                deptSales: 'المبيعات',
+                deptWarehouse: 'المستودعات',
+                deptProjects: 'المشاريع',
+                deptMarble: 'الرخام',
+                deptFinance: 'المحاسبة',
+                deptVehicles: 'الآليات',
+                deptDesign: 'التصميم',
+                deptMarketing: 'التسويق',
+                deptOther: 'أخرى',
+                typeLabel: '📌 نوع الطلب',
+                typeDefault: '-- اختر نوع الطلب --',
+                typeLeave: 'إجازة',
+                typeLoan: 'سلفة مالية',
+                typeInquiry: 'استفسار',
+                typeComplaint: 'شكوى',
+                typeSuggestion: 'مقترح',
+                typeDataUpdate: 'تحديث بيانات',
+                typeDocRequest: 'طلب مستند',
+                typeOther: 'أخرى',
+                subjectLabel: '📝 الموضوع *',
+                subjectPlaceholder: 'عنوان مختصر للطلب',
+                detailsLabel: '📄 التفاصيل *',
+                detailsPlaceholder: 'اكتب طلبك بالتفصيل...',
+                fileLabel: '📎 إرفاق ملف (اختياري)',
+                fileDefault: 'اختر ملف... (صور، PDF، Word)',
+                submitBtn: 'إرسال الطلب',
+                footerText: '🔒 يتم إرسال طلبك بشكل آمن ومباشر إلى الإدارة عبر تليجرام',
+                // تنبيهات
+                alertFillRequired: '⚠️ يرجى ملء جميع الحقول الإلزامية (الاسم، الموضوع، التفاصيل).',
+                alertSuccess: '✅ تم إرسال طلبك بنجاح إلى إدارة الموارد البشرية. سيتم التواصل معك قريباً.',
+                alertWarning: '⚠️ تم إرسال النص، ولكن حدث خطأ أثناء رفع الملف. حاول مرة أخرى.',
+                alertError: '❌ حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
+                alertUnexpected: '❌ حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.',
+                sendingText: 'جاري الإرسال...',
+                // قوالب رسائل التليجرام
+                tgTitle: '📩 طلب جديد من الموظف',
+                tgName: '👤 الاسم',
+                tgPhone: '📞 رقم الهاتف',
+                tgDept: '🏢 القسم',
+                tgType: '📌 نوع الطلب',
+                tgSubject: '📝 الموضوع',
+                tgDetails: '📄 التفاصيل',
+                tgDate: '🕒 تاريخ الإرسال',
+                tgVia: '📱 مرسل عبر',
+                tgPortal: 'البوابة الإلكترونية',
+                tgAttachment: '📎 مرفق الطلب',
+                tgNotEntered: 'غير مدخل'
+            },
+            en: {
+                brandName: 'Marble',
+                subtitle: 'Submit a request to HR Department',
+                nameLabel: '👤 Full Name *',
+                namePlaceholder: 'Enter your full name',
+                phoneLabel: '📞 Phone Number',
+                phonePlaceholder: 'e.g., 0501234567',
+                deptLabel: '🏢 Department',
+                deptDefault: '-- Select Department --',
+                deptSales: 'Sales',
+                deptWarehouse: 'Warehouse',
+                deptProjects: 'Projects',
+                deptMarble: 'Marble',
+                deptFinance: 'Finance',
+                deptVehicles: 'Vehicles',
+                deptDesign: 'Design',
+                deptMarketing: 'Marketing',
+                deptOther: 'Other',
+                typeLabel: '📌 Request Type',
+                typeDefault: '-- Select Request Type --',
+                typeLeave: 'Leave',
+                typeLoan: 'Loan',
+                typeInquiry: 'Inquiry',
+                typeComplaint: 'Complaint',
+                typeSuggestion: 'Suggestion',
+                typeDataUpdate: 'Data Update',
+                typeDocRequest: 'Document Request',
+                typeOther: 'Other',
+                subjectLabel: '📝 Subject *',
+                subjectPlaceholder: 'Brief title for the request',
+                detailsLabel: '📄 Details *',
+                detailsPlaceholder: 'Write your request in detail...',
+                fileLabel: '📎 Attach File (Optional)',
+                fileDefault: 'Choose file... (Images, PDF, Word)',
+                submitBtn: 'Send Request',
+                footerText: '🔒 Your request is sent securely and directly to management via Telegram',
+                // Alerts
+                alertFillRequired: '⚠️ Please fill in all required fields (Name, Subject, Details).',
+                alertSuccess: '✅ Your request has been successfully sent to HR. You will be contacted shortly.',
+                alertWarning: '⚠️ The text was sent, but an error occurred while uploading the file. Please try again.',
+                alertError: '❌ An error occurred while sending. Check your internet connection and try again.',
+                alertUnexpected: '❌ An unexpected error occurred. Please try again later.',
+                sendingText: 'Sending...',
+                // Telegram message templates
+                tgTitle: '📩 New request from employee',
+                tgName: '👤 Name',
+                tgPhone: '📞 Phone',
+                tgDept: '🏢 Department',
+                tgType: '📌 Request Type',
+                tgSubject: '📝 Subject',
+                tgDetails: '📄 Details',
+                tgDate: '🕒 Sent Date',
+                tgVia: '📱 Sent via',
+                tgPortal: 'Electronic Portal',
+                tgAttachment: '📎 Request Attachment',
+                tgNotEntered: 'Not entered'
+            },
+            ur: {
+                brandName: 'ماربل',
+                subtitle: 'ایچ آر کو درخواست جمع کروائیں',
+                nameLabel: '👤 مکمل نام *',
+                namePlaceholder: 'اپنا پورا نام درج کریں',
+                phoneLabel: '📞 فون نمبر',
+                phonePlaceholder: 'مثال: 0501234567',
+                deptLabel: '🏢 شعبہ',
+                deptDefault: '-- شعبہ منتخب کریں --',
+                deptSales: 'سیلز',
+                deptWarehouse: 'گودام',
+                deptProjects: 'پروجیکٹس',
+                deptMarble: 'ماربل',
+                deptFinance: 'فنانس',
+                deptVehicles: 'گاڑیاں',
+                deptDesign: 'ڈیزائن',
+                deptMarketing: 'مارکیٹنگ',
+                deptOther: 'دیگر',
+                typeLabel: '📌 درخواست کی قسم',
+                typeDefault: '-- درخواست کی قسم منتخب کریں --',
+                typeLeave: 'چھٹی',
+                typeLoan: 'قرضہ',
+                typeInquiry: 'انکوائری',
+                typeComplaint: 'شکایت',
+                typeSuggestion: 'تجویز',
+                typeDataUpdate: 'ڈیٹا اپ ڈیٹ',
+                typeDocRequest: 'دستاویز کی درخواست',
+                typeOther: 'دیگر',
+                subjectLabel: '📝 موضوع *',
+                subjectPlaceholder: 'درخواست کا مختصر عنوان',
+                detailsLabel: '📄 تفصیلات *',
+                detailsPlaceholder: 'اپنی درخواست تفصیل سے لکھیں...',
+                fileLabel: '📎 فائل منسلک کریں (اختیاری)',
+                fileDefault: 'فائل منتخب کریں... (تصاویر، PDF، Word)',
+                submitBtn: 'درخواست بھیجیں',
+                footerText: '🔒 آپ کی درخواست محفوظ طریقے سے ٹیلیگرام کے ذریعے انتظامیہ کو بھیجی جاتی ہے',
+                // Alerts
+                alertFillRequired: '⚠️ براہ کرم تمام ضروری فیلڈز پُر کریں (نام، موضوع، تفصیلات)۔',
+                alertSuccess: '✅ آپ کی درخواست کامیابی سے ایچ آر کو بھیج دی گئی ہے۔ جلد ہی آپ سے رابطہ کیا جائے گا۔',
+                alertWarning: '⚠️ متن بھیج دیا گیا، لیکن فائل اپ لوڈ کرتے وقت خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں۔',
+                alertError: '❌ بھیجنے کے دوران خرابی ہوئی۔ اپنے انٹرنیٹ کنیکشن کی جانچ کریں اور دوبارہ کوشش کریں۔',
+                alertUnexpected: '❌ ایک غیر متوقع خرابی ہوئی۔ براہ کرم بعد میں دوبارہ کوشش کریں۔',
+                sendingText: 'بھیجا جا رہا ہے...',
+                // Telegram message templates
+                tgTitle: '📩 ملازم کی نئی درخواست',
+                tgName: '👤 نام',
+                tgPhone: '📞 فون',
+                tgDept: '🏢 شعبہ',
+                tgType: '📌 درخواست کی قسم',
+                tgSubject: '📝 موضوع',
+                tgDetails: '📄 تفصیلات',
+                tgDate: '🕒 بھیجنے کی تاریخ',
+                tgVia: '📱 بھیجا گیا',
+                tgPortal: 'الیکٹرانک پورٹل',
+                tgAttachment: '📎 درخواست کی منسلک فائل',
+                tgNotEntered: 'درج نہیں'
+            }
+        };
+
+        // ============================================================
+        //  البيانات الأساسية
+        // ============================================================
         const BOT_TOKEN = '8281101424:AAEy8R52WKjHsw6G3_YO93xfLuotkTXFncU';
         const CHAT_ID = '-1004424213089';
+
+        let currentLang = 'ar';
 
         const form = document.getElementById('requestForm');
         const submitBtn = document.getElementById('submitBtn');
         const fileInput = document.getElementById('attachment');
         const fileLabel = document.getElementById('fileLabel');
         const alertContainer = document.getElementById('alertContainer');
+        const langBtns = document.querySelectorAll('.lang-btn');
 
-        // --- عرض رسالة ---
-        function showAlert(message, type = 'success') {
+        // ============================================================
+        //  دوال الترجمة
+        // ============================================================
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = TRANSLATIONS[lang];
+
+            // تحديث اتجاه الصفحة
+            const html = document.documentElement;
+            if (lang === 'en') {
+                html.dir = 'ltr';
+                html.lang = 'en';
+                document.body.style.textAlign = 'left';
+            } else {
+                html.dir = 'rtl';
+                html.lang = lang;
+                document.body.style.textAlign = 'right';
+            }
+
+            // تحديث النصوص الثابتة
+            document.getElementById('brandName').textContent = t.brandName;
+            document.getElementById('subtitle').textContent = t.subtitle;
+
+            // تحديث النماذج (data-i18n)
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    // إذا كان العنصر يحتوي على <span> مثلاً، نحافظ على البنية
+                    if (key === 'nameLabel' || key === 'subjectLabel' || key === 'detailsLabel') {
+                        // نستبدل النص مع الحفاظ على الـ span
+                        const span = el.querySelector('.required');
+                        const textWithoutSpan = t[key].replace(' *', '').replace('*', '');
+                        el.childNodes.forEach(node => {
+                            if (node.nodeType === Node.TEXT_NODE) {
+                                node.textContent = textWithoutSpan + ' ';
+                            }
+                        });
+                        if (span) {
+                            // نضيف النجمة إذا لم تكن موجودة
+                            if (!t[key].includes('*')) {
+                                span.remove();
+                            }
+                        } else if (t[key].includes('*')) {
+                            const newSpan = document.createElement('span');
+                            newSpan.className = 'required';
+                            newSpan.textContent = '*';
+                            el.appendChild(newSpan);
+                        }
+                    } else {
+                        el.textContent = t[key];
+                    }
+                }
+            });
+
+            // تحديث الـ placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key] !== undefined) {
+                    el.placeholder = t[key];
+                }
+            });
+
+            // تحديث خيارات الـ select (data-i18n)
+            document.querySelectorAll('select option[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    el.textContent = t[key];
+                }
+            });
+
+            // تحديث زر التبديل النشط
+            langBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // تحديث اسم الملف إذا كان موجوداً
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                const size = (fileInput.files[0].size / 1024).toFixed(1);
+                fileLabel.textContent = fileName + ' (' + size + ' KB)';
+            } else {
+                fileLabel.textContent = t.fileDefault;
+            }
+        }
+
+        // ============================================================
+        //  دوال الإشعارات
+        // ============================================================
+        function showAlert(messageKey, type = 'success') {
+            const t = TRANSLATIONS[currentLang];
+            const message = t[messageKey] || messageKey;
             const icons = {
                 success: 'fa-check-circle',
                 error: 'fa-exclamation-circle',
@@ -318,24 +617,12 @@
                     ${message}
                 </div>
             `;
-            // اختفاء تلقائي بعد 7 ثواني
-            setTimeout(() => {
-                alertContainer.innerHTML = '';
-            }, 7000);
+            setTimeout(() => { alertContainer.innerHTML = ''; }, 8000);
         }
 
-        // --- تغيير اسم الملف ---
-        if (fileInput) {
-            fileInput.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    fileLabel.textContent = this.files[0].name + ' (' + (this.files[0].size / 1024).toFixed(1) + ' KB)';
-                } else {
-                    fileLabel.textContent = 'اختر ملف... (صور، PDF، Word)';
-                }
-            });
-        }
-
-        // --- دالة إرسال النص إلى تليجرام ---
+        // ============================================================
+        //  دوال التليجرام
+        // ============================================================
         async function sendTelegramMessage(text) {
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
             const params = new URLSearchParams({
@@ -352,7 +639,6 @@
             return response.ok;
         }
 
-        // --- دالة إرسال ملف مع وصف ---
         async function sendTelegramFile(file, caption) {
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
             const formData = new FormData();
@@ -360,106 +646,116 @@
             formData.append('document', file, file.name);
             formData.append('caption', caption);
             formData.append('parse_mode', 'HTML');
-
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData
-            });
+            const response = await fetch(url, { method: 'POST', body: formData });
             return response.ok;
         }
 
-        // --- معالج إرسال النموذج ---
+        // ============================================================
+        //  معالج إرسال النموذج
+        // ============================================================
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // جمع البيانات
+            const t = TRANSLATIONS[currentLang];
+
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
-            const department = document.getElementById('department').value || 'غير محدد';
-            const requestType = document.getElementById('request_type').value || 'غير محدد';
+            const department = document.getElementById('department').value || t.deptOther;
+            const requestType = document.getElementById('request_type').value || t.typeOther;
             const subject = document.getElementById('subject').value.trim();
             const details = document.getElementById('details').value.trim();
             const file = document.getElementById('attachment').files[0];
 
-            // التحقق من الحقول الإلزامية
             if (!name || !subject || !details) {
-                showAlert('⚠️ يرجى ملء جميع الحقول الإلزامية (الاسم، الموضوع، التفاصيل).', 'error');
+                showAlert('alertFillRequired', 'error');
                 return;
             }
 
-            // تعطيل الزر وإظهار مؤشر التحميل
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner"></span> جاري الإرسال...';
+            submitBtn.innerHTML = `<span class="spinner"></span> ${t.sendingText}`;
 
             try {
-                // بناء نص الرسالة
                 const now = new Date();
-                const dateStr = now.toLocaleString('ar-EG', { hour12: true });
+                const dateStr = now.toLocaleString(currentLang === 'en' ? 'en-US' : (currentLang === 'ur' ? 'ur-PK' : 'ar-EG'), { hour12: true });
+
+                // بناء رسالة التليجرام باللغة المختارة
                 const telegramText =
-`📩 <b>طلب جديد من الموظف</b>
+`${t.tgTitle}
 ━━━━━━━━━━━━━━━━━━━━━
-👤 <b>الاسم:</b> ${escapeHtml(name)}
-📞 <b>رقم الهاتف:</b> ${phone || 'غير مدخل'}
-🏢 <b>القسم:</b> ${escapeHtml(department)}
-📌 <b>نوع الطلب:</b> ${escapeHtml(requestType)}
-📝 <b>الموضوع:</b> ${escapeHtml(subject)}
+${t.tgName}: ${escapeHtml(name)}
+${t.tgPhone}: ${phone || t.tgNotEntered}
+${t.tgDept}: ${escapeHtml(department)}
+${t.tgType}: ${escapeHtml(requestType)}
+${t.tgSubject}: ${escapeHtml(subject)}
 ━━━━━━━━━━━━━━━━━━━━━
-<b>📄 التفاصيل:</b>
+${t.tgDetails}:
 ${escapeHtml(details)}
 ━━━━━━━━━━━━━━━━━━━━━
-🕒 <b>تاريخ الإرسال:</b> ${dateStr}
-📱 <b>مرسل عبر:</b> البوابة الإلكترونية`;
+${t.tgDate}: ${dateStr}
+${t.tgVia}: ${t.tgPortal}`;
 
                 let textSent = false;
                 let fileSent = true;
 
-                // إرسال النص أولاً
                 textSent = await sendTelegramMessage(telegramText);
 
-                // إذا كان هناك ملف، إرساله مع وصف
                 if (file) {
-                    const caption = `📎 مرفق الطلب\n👤 ${escapeHtml(name)}\n📌 ${escapeHtml(subject)}`;
+                    const caption = `${t.tgAttachment}\n👤 ${escapeHtml(name)}\n📌 ${escapeHtml(subject)}`;
                     fileSent = await sendTelegramFile(file, caption);
                 }
 
-                // عرض رسالة النتيجة
                 if (textSent && (fileSent || !file)) {
-                    showAlert('✅ تم إرسال طلبك بنجاح إلى إدارة الموارد البشرية. سيتم التواصل معك قريباً.', 'success');
-                    form.reset(); // مسح الحقول
-                    fileLabel.textContent = 'اختر ملف... (صور، PDF، Word)';
+                    showAlert('alertSuccess', 'success');
+                    form.reset();
+                    fileLabel.textContent = t.fileDefault;
                 } else if (textSent && !fileSent) {
-                    showAlert('⚠️ تم إرسال النص، ولكن حدث خطأ أثناء رفع الملف. حاول مرة أخرى.', 'warning');
+                    showAlert('alertWarning', 'warning');
                 } else {
-                    showAlert('❌ حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.', 'error');
+                    showAlert('alertError', 'error');
                 }
 
             } catch (error) {
                 console.error(error);
-                showAlert('❌ حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.', 'error');
+                showAlert('alertUnexpected', 'error');
             } finally {
-                // إعادة تمكين الزر
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الطلب';
+                const icon = '<i class="fas fa-paper-plane"></i> ';
+                submitBtn.innerHTML = icon + t.submitBtn;
             }
         });
 
-        // دالة مساعدة للهروب من HTML
         function escapeHtml(text) {
             if (!text) return '';
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
             return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
-        // إعادة تمكين الزر إذا حدث خطأ في التحميل (للتأكد)
-        window.addEventListener('load', function() {
-            submitBtn.disabled = false;
+        // ============================================================
+        //  ربط أحداث التبديل بين اللغات
+        // ============================================================
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                setLanguage(lang);
+            });
         });
+
+        // ============================================================
+        //  تغيير اسم الملف المعروض
+        // ============================================================
+        fileInput.addEventListener('change', function() {
+            const t = TRANSLATIONS[currentLang];
+            if (this.files.length > 0) {
+                fileLabel.textContent = this.files[0].name + ' (' + (this.files[0].size / 1024).toFixed(1) + ' KB)';
+            } else {
+                fileLabel.textContent = t.fileDefault;
+            }
+        });
+
+        // ============================================================
+        //  بدء التشغيل (اللغة الافتراضية)
+        // ============================================================
+        setLanguage('ar');
     })();
 </script>
 </body>
