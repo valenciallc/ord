@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج إرسال طلب – فالنسيا للرخام</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f2f6fc 0%, #e9ecf0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 35px 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            font-size: 26px;
+            color: #1e2a3a;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .logo h1 span {
+            color: #c8902d;
+        }
+        .logo p {
+            color: #7a8a9e;
+            font-size: 15px;
+            margin-top: 6px;
+            border-top: 2px solid #f0f2f5;
+            padding-top: 10px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e2a3a;
+            margin-bottom: 5px;
+        }
+        .form-group label .required {
+            color: #e74c3c;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 15px;
+            transition: 0.25s;
+            background: #fafcff;
+            color: #1e2a3a;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c8902d;
+            box-shadow: 0 0 0 4px rgba(200, 144, 45, 0.1);
+            background: #ffffff;
+        }
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+        .form-group .file-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fafcff;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 14px;
+            padding: 10px 16px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .form-group .file-input-wrapper:hover {
+            border-color: #c8902d;
+            background: #fcf9f2;
+        }
+        .form-group .file-input-wrapper input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .form-group .file-input-wrapper .file-label {
+            color: #64748b;
+            font-size: 14px;
+            pointer-events: none;
+        }
+        .form-group .file-input-wrapper .file-icon {
+            color: #c8902d;
+            font-size: 20px;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #c8902d, #b07c1f);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(200, 144, 45, 0.3);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .alert {
+            padding: 14px 18px;
+            border-radius: 14px;
+            margin-bottom: 22px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .alert-warning {
+            background: #fffbeb;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #94a3b8;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 18px;
+        }
+        .footer i {
+            color: #c8902d;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 20px; }
+            .logo h1 { font-size: 22px; }
+        }
+        /* spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <h1>🏛️ فالنسيا <span>للرخام</span></h1>
+        <p>تقديم طلب إلى إدارة الموارد البشرية</p>
+    </div>
+
+    <!-- منطقة عرض الرسائل -->
+    <div id="alertContainer"></div>
+
+    <form id="requestForm" enctype="multipart/form-data">
+        <!-- الاسم -->
+        <div class="form-group">
+            <label for="name">👤 الاسم الكامل <span class="required">*</span></label>
+            <input type="text" id="name" name="name" required placeholder="أدخل اسمك الثلاثي">
+        </div>
+
+        <!-- رقم الهاتف -->
+        <div class="form-group">
+            <label for="phone">📞 رقم الهاتف</label>
+            <input type="tel" id="phone" name="phone" placeholder="مثال: 0501234567">
+        </div>
+
+        <!-- القسم -->
+        <div class="form-group">
+            <label for="department">🏢 القسم</label>
+            <select id="department" name="department">
+                <option value="">-- اختر القسم --</option>
+                <option value="المبيعات">المبيعات</option>
+                <option value="المستودعات">المستودعات</option>
+                <option value="المشاريع">المشاريع</option>
+                <option value="الرخام">الرخام</option>
+                <option value="المحاسبة">المحاسبة</option>
+                <option value="الآليات">الآليات</option>
+                <option value="التصميم">التصميم</option>
+                <option value="التسويق">التسويق</option>
+                <option value="أخرى">أخرى</option>
+            </select>
+        </div>
+
+        <!-- نوع الطلب -->
+        <div class="form-group">
+            <label for="request_type">📌 نوع الطلب</label>
+            <select id="request_type" name="request_type">
+                <option value="">-- اختر نوع الطلب --</option>
+                <option value="إجازة">إجازة</option>
+                <option value="سلفة مالية">سلفة مالية</option>
+                <option value="استفسار">استفسار</option>
+                <option value="شكوى">شكوى</option>
+                <option value="مقترح">مقترح</option>
+                <option value="تحديث بيانات">تحديث بيانات</option>
+                <option value="طلب مستند">طلب مستند</option>
+                <option value="أخرى">أخرى</option>
+            </select>
+        </div>
+
+        <!-- الموضوع -->
+        <div class="form-group">
+            <label for="subject">📝 الموضوع <span class="required">*</span></label>
+            <input type="text" id="subject" name="subject" required placeholder="عنوان مختصر للطلب">
+        </div>
+
+        <!-- التفاصيل -->
+        <div class="form-group">
+            <label for="details">📄 التفاصيل <span class="required">*</span></label>
+            <textarea id="details" name="details" required placeholder="اكتب طلبك بالتفصيل..."></textarea>
+        </div>
+
+        <!-- رفع ملف -->
+        <div class="form-group">
+            <label for="attachment">📎 إرفاق ملف (اختياري)</label>
+            <div class="file-input-wrapper">
+                <span class="file-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                <span class="file-label" id="fileLabel">اختر ملف... (صور، PDF، Word)</span>
+                <input type="file" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> إرسال الطلب
+        </button>
+    </form>
+
+    <div class="footer">
+        <i class="fas fa-lock"></i> يتم إرسال طلبك بشكل آمن ومباشر إلى الإدارة عبر تليجرام
+    </div>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script>
+    (function() {
+        // 🔑 بيانات التليجرام (استبدل بالقيم الخاصة بك)
+        const BOT_TOKEN = '8281101424:AAEy8R52WKjHsw6G3_YO93xfLuotkTXFncU';
+        const CHAT_ID = '-1004424213089';
+
+        const form = document.getElementById('requestForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const fileInput = document.getElementById('attachment');
+        const fileLabel = document.getElementById('fileLabel');
+        const alertContainer = document.getElementById('alertContainer');
+
+        // --- عرض رسالة ---
+        function showAlert(message, type = 'success') {
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-info-circle'
+            };
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type}">
+                    <i class="fas ${icons[type] || 'fa-info-circle'}"></i>
+                    ${message}
+                </div>
+            `;
+            // اختفاء تلقائي بعد 7 ثواني
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 7000);
+        }
+
+        // --- تغيير اسم الملف ---
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    fileLabel.textContent = this.files[0].name + ' (' + (this.files[0].size / 1024).toFixed(1) + ' KB)';
+                } else {
+                    fileLabel.textContent = 'اختر ملف... (صور، PDF، Word)';
+                }
+            });
+        }
+
+        // --- دالة إرسال النص إلى تليجرام ---
+        async function sendTelegramMessage(text) {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            const params = new URLSearchParams({
+                chat_id: CHAT_ID,
+                text: text,
+                parse_mode: 'HTML',
+                disable_web_page_preview: true
+            });
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params
+            });
+            return response.ok;
+        }
+
+        // --- دالة إرسال ملف مع وصف ---
+        async function sendTelegramFile(file, caption) {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('document', file, file.name);
+            formData.append('caption', caption);
+            formData.append('parse_mode', 'HTML');
+
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+            return response.ok;
+        }
+
+        // --- معالج إرسال النموذج ---
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // جمع البيانات
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const department = document.getElementById('department').value || 'غير محدد';
+            const requestType = document.getElementById('request_type').value || 'غير محدد';
+            const subject = document.getElementById('subject').value.trim();
+            const details = document.getElementById('details').value.trim();
+            const file = document.getElementById('attachment').files[0];
+
+            // التحقق من الحقول الإلزامية
+            if (!name || !subject || !details) {
+                showAlert('⚠️ يرجى ملء جميع الحقول الإلزامية (الاسم، الموضوع، التفاصيل).', 'error');
+                return;
+            }
+
+            // تعطيل الزر وإظهار مؤشر التحميل
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> جاري الإرسال...';
+
+            try {
+                // بناء نص الرسالة
+                const now = new Date();
+                const dateStr = now.toLocaleString('ar-EG', { hour12: true });
+                const telegramText =
+`📩 <b>طلب جديد من الموظف</b>
+━━━━━━━━━━━━━━━━━━━━━
+👤 <b>الاسم:</b> ${escapeHtml(name)}
+📞 <b>رقم الهاتف:</b> ${phone || 'غير مدخل'}
+🏢 <b>القسم:</b> ${escapeHtml(department)}
+📌 <b>نوع الطلب:</b> ${escapeHtml(requestType)}
+📝 <b>الموضوع:</b> ${escapeHtml(subject)}
+━━━━━━━━━━━━━━━━━━━━━
+<b>📄 التفاصيل:</b>
+${escapeHtml(details)}
+━━━━━━━━━━━━━━━━━━━━━
+🕒 <b>تاريخ الإرسال:</b> ${dateStr}
+📱 <b>مرسل عبر:</b> البوابة الإلكترونية`;
+
+                let textSent = false;
+                let fileSent = true;
+
+                // إرسال النص أولاً
+                textSent = await sendTelegramMessage(telegramText);
+
+                // إذا كان هناك ملف، إرساله مع وصف
+                if (file) {
+                    const caption = `📎 مرفق الطلب\n👤 ${escapeHtml(name)}\n📌 ${escapeHtml(subject)}`;
+                    fileSent = await sendTelegramFile(file, caption);
+                }
+
+                // عرض رسالة النتيجة
+                if (textSent && (fileSent || !file)) {
+                    showAlert('✅ تم إرسال طلبك بنجاح إلى إدارة الموارد البشرية. سيتم التواصل معك قريباً.', 'success');
+                    form.reset(); // مسح الحقول
+                    fileLabel.textContent = 'اختر ملف... (صور، PDF، Word)';
+                } else if (textSent && !fileSent) {
+                    showAlert('⚠️ تم إرسال النص، ولكن حدث خطأ أثناء رفع الملف. حاول مرة أخرى.', 'warning');
+                } else {
+                    showAlert('❌ حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.', 'error');
+                }
+
+            } catch (error) {
+                console.error(error);
+                showAlert('❌ حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.', 'error');
+            } finally {
+                // إعادة تمكين الزر
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الطلب';
+            }
+        });
+
+        // دالة مساعدة للهروب من HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // إعادة تمكين الزر إذا حدث خطأ في التحميل (للتأكد)
+        window.addEventListener('load', function() {
+            submitBtn.disabled = false;
+        });
+    })();
+</script>
+</body>
+</html>
