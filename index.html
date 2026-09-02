@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> نموذج إرسال طلب – فالنسيا لتجاره الرخام والحجر الطبيعي </title>
+    <title>نموذج طلبات الموظفين – فالنسيا للرخام</title>
     <style>
+        /* === إعادة تعيين وقواعد أساسية === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, sans-serif;
         }
+
         body {
-            background: linear-gradient(135deg, #f2f6fc 0%, #e9ecf0 100%);
+            background: linear-gradient(145deg, #f4f7fb 0%, #e6ecf3 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -20,118 +22,216 @@
             padding: 20px;
             transition: 0.3s;
         }
+
         .container {
-            max-width: 550px;
+            max-width: 650px;
             width: 100%;
             background: #ffffff;
-            border-radius: 28px;
-            padding: 35px 30px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 32px;
+            padding: 30px 25px 35px;
+            box-shadow: 0 20px 60px rgba(0, 20, 30, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.7);
             transition: 0.3s;
         }
+
+        /* === الهيدر === */
         .logo {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .logo h1 {
             font-size: 26px;
-            color: #1e2a3a;
+            color: #1a2634;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .logo h1 span {
-            color: #c8902d;
+            color: #b8862c;
         }
         .logo p {
-            color: #7a8a9e;
+            color: #6b7b8f;
             font-size: 15px;
-            margin-top: 6px;
-            border-top: 2px solid #f0f2f5;
+            border-top: 2px solid #edf2f7;
             padding-top: 10px;
+            margin-top: 6px;
         }
-        /* Language Switcher */
+
+        /* === مبدل اللغة === */
         .lang-switcher {
             display: flex;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             flex-wrap: wrap;
         }
         .lang-btn {
-            padding: 6px 16px;
+            padding: 8px 18px;
             border: 2px solid #e2e8f0;
             border-radius: 40px;
             background: transparent;
             cursor: pointer;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             transition: 0.2s;
-            color: #1e2a3a;
+            color: #1a2634;
         }
         .lang-btn:hover {
-            border-color: #c8902d;
-            background: #fcf9f2;
+            border-color: #b8862c;
+            background: #fcf8f0;
         }
         .lang-btn.active {
-            border-color: #c8902d;
-            background: #c8902d;
+            border-color: #b8862c;
+            background: #b8862c;
             color: #fff;
         }
-        .form-group {
+
+        /* === التنبيهات === */
+        #alertContainer {
             margin-bottom: 18px;
+        }
+        .alert {
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-width: 1px;
+            border-style: solid;
+        }
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            border-color: #fca5a5;
+        }
+        .alert-warning {
+            background: #fffbeb;
+            color: #92400e;
+            border-color: #fcd34d;
+        }
+
+        /* === تبويبات الطلبات (Tabs) === */
+        .tabs-container {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 22px;
+            background: #f1f5f9;
+            border-radius: 18px;
+            padding: 5px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            border-radius: 14px;
+            background: transparent;
+            font-weight: 700;
+            font-size: 15px;
+            color: #475569;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .tab-btn i {
+            font-size: 18px;
+        }
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1a2634;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0.4; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === حقول النموذج === */
+        .form-group {
+            margin-bottom: 16px;
         }
         .form-group label {
             display: block;
             font-weight: 600;
-            font-size: 14px;
-            color: #1e2a3a;
-            margin-bottom: 5px;
+            font-size: 15px;
+            color: #1a2634;
+            margin-bottom: 4px;
         }
         .form-group label .required {
-            color: #e74c3c;
+            color: #dc2626;
+            margin-right: 2px;
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 16px;
             border: 1.5px solid #e2e8f0;
-            border-radius: 14px;
-            font-size: 15px;
-            transition: 0.25s;
+            border-radius: 16px;
+            font-size: 16px;
+            transition: 0.2s;
             background: #fafcff;
-            color: #1e2a3a;
+            color: #1a2634;
         }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #c8902d;
-            box-shadow: 0 0 0 4px rgba(200, 144, 45, 0.1);
+            border-color: #b8862c;
+            box-shadow: 0 0 0 4px rgba(184, 134, 44, 0.12);
             background: #ffffff;
         }
         .form-group textarea {
-            min-height: 110px;
+            min-height: 80px;
             resize: vertical;
         }
-        .form-group .file-input-wrapper {
-            position: relative;
+        .form-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .form-row .form-group {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        /* === رفع الملف === */
+        .file-input-wrapper {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             background: #fafcff;
             border: 1.5px dashed #cbd5e1;
-            border-radius: 14px;
-            padding: 10px 16px;
+            border-radius: 16px;
+            padding: 12px 18px;
             transition: 0.3s;
             cursor: pointer;
+            position: relative;
         }
-        .form-group .file-input-wrapper:hover {
-            border-color: #c8902d;
+        .file-input-wrapper:hover {
+            border-color: #b8862c;
             background: #fcf9f2;
         }
-        .form-group .file-input-wrapper input[type="file"] {
+        .file-input-wrapper input[type="file"] {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -140,167 +240,248 @@
             opacity: 0;
             cursor: pointer;
         }
-        .form-group .file-input-wrapper .file-label {
+        .file-input-wrapper .file-label {
             color: #64748b;
-            font-size: 14px;
+            font-size: 15px;
             pointer-events: none;
         }
-        .form-group .file-input-wrapper .file-icon {
-            color: #c8902d;
-            font-size: 20px;
+        .file-input-wrapper .file-icon {
+            color: #b8862c;
+            font-size: 22px;
         }
+
+        /* === الموافقة والإرسال === */
+        .consent-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 14px 18px;
+            border-radius: 16px;
+            margin-top: 6px;
+        }
+        .consent-group input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #b8862c;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .consent-group label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+        }
+
         .btn-submit {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #c8902d, #b07c1f);
+            padding: 16px;
+            background: linear-gradient(135deg, #b8862c, #9e711f);
             color: #fff;
             border: none;
             border-radius: 40px;
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.25s;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 12px;
         }
-        .btn-submit:hover {
+        .btn-submit:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(200, 144, 45, 0.3);
+            box-shadow: 0 12px 28px rgba(184, 134, 44, 0.35);
         }
         .btn-submit:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
-        .alert {
-            padding: 14px 18px;
-            border-radius: 14px;
-            margin-bottom: 22px;
-            font-weight: 600;
-            font-size: 14px;
+
+        /* === معاينة الطلب (التوثيق) === */
+        .preview-box {
+            margin-top: 24px;
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 18px 20px;
+            border: 1px solid #e9edf2;
+            transition: 0.2s;
+        }
+        .preview-box h3 {
+            font-size: 16px;
+            color: #1a2634;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .alert-success {
-            background: #ecfdf5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
+        .preview-box h3 i {
+            color: #b8862c;
         }
-        .alert-error {
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
+        .preview-content {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1e293b;
+            border-right: 4px solid #b8862c;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 60px;
         }
-        .alert-warning {
-            background: #fffbeb;
-            color: #92400e;
-            border: 1px solid #fcd34d;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 13px;
+        .preview-content .empty-preview {
             color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 18px;
+            font-style: italic;
         }
-        .footer i {
-            color: #c8902d;
-        }
+
         .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.7s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13px;
+            color: #94a3b8;
+            border-top: 1px solid #edf2f7;
+            padding-top: 16px;
         }
-        @media (max-width: 480px) {
-            .container { padding: 20px; }
-            .logo h1 { font-size: 22px; }
-            .lang-btn { padding: 4px 12px; font-size: 12px; }
+        .footer i { color: #b8862c; }
+
+        @media (max-width: 500px) {
+            .container { padding: 18px; }
+            .tab-btn { font-size: 13px; padding: 10px 6px; }
+            .tab-btn i { font-size: 15px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .logo h1 { font-size: 21px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <!-- الهيدر -->
     <div class="logo">
-        <h1>🏛️ فالنسيا لتجاره الرخام والحجر الطبيعي <span id="brandName"> </span></h1>
-        <p id="subtitle">تقديم طلب إلى إدارة الموارد البشرية</p>
+        <h1>🏛️ فالنسيا <span>للرخام</span></h1>
+        <p id="subtitle">نموذج طلبات الموظفين – إدارة الموارد البشرية</p>
     </div>
 
-    <!-- Language Switcher -->
+    <!-- مبدل اللغة -->
     <div class="lang-switcher">
         <button class="lang-btn active" data-lang="ar">🇸🇦 العربية</button>
         <button class="lang-btn" data-lang="en">🇬🇧 English</button>
         <button class="lang-btn" data-lang="ur">🇵🇰 اُردو</button>
     </div>
 
-    <!-- Alert Container -->
+    <!-- التنبيهات -->
     <div id="alertContainer"></div>
 
     <form id="requestForm" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="name" data-i18n="nameLabel">👤 الاسم الكامل <span class="required">*</span></label>
-            <input type="text" id="name" name="name" required placeholder="أدخل اسمك الثلاثي" data-i18n-placeholder="namePlaceholder">
+        <!-- الحقول المشتركة (بيانات الموظف) -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name" data-i18n="nameLabel">👤 الاسم الكامل <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required placeholder="مثل: أحمد محمد علي" data-i18n-placeholder="namePlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="employee_id" data-i18n="idLabel">🆔 الرقم الوظيفي</label>
+                <input type="text" id="employee_id" name="employee_id" placeholder="مثل: 00000208" data-i18n-placeholder="idPlaceholder">
+            </div>
         </div>
-
         <div class="form-group">
-            <label for="phone" data-i18n="phoneLabel">📞 رقم الهاتف</label>
+            <label for="phone" data-i18n="phoneLabel">📞 رقم الجوال</label>
             <input type="tel" id="phone" name="phone" placeholder="مثال: 0501234567" data-i18n-placeholder="phonePlaceholder">
         </div>
 
-        <div class="form-group">
-            <label for="department" data-i18n="deptLabel">🏢 القسم</label>
-            <select id="department" name="department">
-                <option value="" data-i18n="deptDefault">-- اختر القسم --</option>
-                <option value="المبيعات" data-i18n="deptSales">المبيعات</option>
-                <option value="المستودعات" data-i18n="deptWarehouse">المستودعات</option>
-                <option value="المشاريع" data-i18n="deptProjects">المشاريع</option>
-                <option value="الرخام" data-i18n="deptMarble">الرخام</option>
-                <option value="المحاسبة" data-i18n="deptFinance">المحاسبة</option>
-                <option value="الآليات" data-i18n="deptVehicles">الآليات</option>
-                <option value="التصميم" data-i18n="deptDesign">التصميم</option>
-                <option value="التسويق" data-i18n="deptMarketing">التسويق</option>
-                <option value="أخرى" data-i18n="deptOther">أخرى</option>
-            </select>
+        <!-- تبويبات أنواع الطلبات -->
+        <div class="tabs-container" id="tabHeaders">
+            <button type="button" class="tab-btn active" data-tab="leaveTab"><i class="fas fa-calendar-alt"></i> <span data-i18n="tabLeave">إجازة</span></button>
+            <button type="button" class="tab-btn" data-tab="loanTab"><i class="fas fa-hand-holding-usd"></i> <span data-i18n="tabLoan">سلفة</span></button>
+            <button type="button" class="tab-btn" data-tab="otherTab"><i class="fas fa-ellipsis-h"></i> <span data-i18n="tabOther">طلب آخر</span></button>
         </div>
 
-        <div class="form-group">
-            <label for="request_type" data-i18n="typeLabel">📌 نوع الطلب</label>
-            <select id="request_type" name="request_type">
-                <option value="" data-i18n="typeDefault">-- اختر نوع الطلب --</option>
-                <option value="إجازة" data-i18n="typeLeave">إجازة</option>
-                <option value="سلفة مالية" data-i18n="typeLoan">سلفة مالية</option>
-                <option value="استفسار" data-i18n="typeInquiry">استفسار</option>
-                <option value="شكوى" data-i18n="typeComplaint">شكوى</option>
-                <option value="مقترح" data-i18n="typeSuggestion">مقترح</option>
-                <option value="تحديث بيانات" data-i18n="typeDataUpdate">تحديث بيانات</option>
-                <option value="طلب مستند" data-i18n="typeDocRequest">طلب مستند</option>
-                <option value="أخرى" data-i18n="typeOther">أخرى</option>
-            </select>
+        <!-- ======== تبويب الإجازة ======== -->
+        <div id="leaveTab" class="tab-content active">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="leave_start" data-i18n="leaveStart">📅 تاريخ البدء <span class="required">*</span></label>
+                    <input type="date" id="leave_start" name="leave_start" required>
+                </div>
+                <div class="form-group">
+                    <label for="leave_end" data-i18n="leaveEnd">📅 تاريخ النهاية <span class="required">*</span></label>
+                    <input type="date" id="leave_end" name="leave_end" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="leave_type" data-i18n="leaveType">🏷️ نوع الإجازة <span class="required">*</span></label>
+                <select id="leave_type" name="leave_type" required>
+                    <option value="" data-i18n="leaveTypeDefault">-- اختر النوع --</option>
+                    <option value="سنوية" data-i18n="leaveAnnual">سنوية</option>
+                    <option value="مرضية" data-i18n="leaveSick">مرضية</option>
+                    <option value="طارئة" data-i18n="leaveEmergency">طارئة</option>
+                    <option value="بدون راتب" data-i18n="leaveUnpaid">بدون راتب</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="leave_reason" data-i18n="leaveReason">📝 سبب الإجازة <span class="required">*</span></label>
+                <textarea id="leave_reason" name="leave_reason" rows="2" required placeholder="اذكر سبب طلب الإجازة..." data-i18n-placeholder="leaveReasonPlaceholder"></textarea>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="subject" data-i18n="subjectLabel">📝 الموضوع <span class="required">*</span></label>
-            <input type="text" id="subject" name="subject" required placeholder="عنوان مختصر للطلب" data-i18n-placeholder="subjectPlaceholder">
+        <!-- ======== تبويب السلفة ======== -->
+        <div id="loanTab" class="tab-content">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="loan_amount" data-i18n="loanAmount">💰 المبلغ المطلوب (ريال) <span class="required">*</span></label>
+                    <input type="number" id="loan_amount" name="loan_amount" min="1" step="0.5" placeholder="مثل: 1000" data-i18n-placeholder="loanAmountPlaceholder">
+                </div>
+                <div class="form-group">
+                    <label for="loan_date" data-i18n="loanRepayment">📅 تاريخ السداد المتوقع</label>
+                    <input type="date" id="loan_date" name="loan_date">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loan_reason" data-i18n="loanReason">📝 سبب السلفة <span class="required">*</span></label>
+                <textarea id="loan_reason" name="loan_reason" rows="2" placeholder="اذكر سبب طلب السلفة..." data-i18n-placeholder="loanReasonPlaceholder"></textarea>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="details" data-i18n="detailsLabel">📄 التفاصيل <span class="required">*</span></label>
-            <textarea id="details" name="details" required placeholder="اكتب طلبك بالتفصيل..." data-i18n-placeholder="detailsPlaceholder"></textarea>
+        <!-- ======== تبويب طلب آخر ======== -->
+        <div id="otherTab" class="tab-content">
+            <div class="form-group">
+                <label for="other_subject" data-i18n="otherSubject">📌 الموضوع <span class="required">*</span></label>
+                <input type="text" id="other_subject" name="other_subject" placeholder="عنوان الطلب..." data-i18n-placeholder="otherSubjectPlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="other_details" data-i18n="otherDetails">📄 التفاصيل <span class="required">*</span></label>
+                <textarea id="other_details" name="other_details" rows="3" placeholder="اكتب طلبك بالتفصيل..." data-i18n-placeholder="otherDetailsPlaceholder"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="other_dept" data-i18n="otherDept">🏢 القسم المعني</label>
+                <select id="other_dept" name="other_dept">
+                    <option value="الموارد البشرية" data-i18n="deptHR">الموارد البشرية</option>
+                    <option value="المبيعات" data-i18n="deptSales">المبيعات</option>
+                    <option value="المستودعات" data-i18n="deptWarehouse">المستودعات</option>
+                    <option value="المشاريع" data-i18n="deptProjects">المشاريع</option>
+                    <option value="المحاسبة" data-i18n="deptFinance">المحاسبة</option>
+                    <option value="الآليات" data-i18n="deptVehicles">الآليات</option>
+                </select>
+            </div>
         </div>
 
+        <!-- رفع ملف -->
         <div class="form-group">
-            <label for="attachment" data-i18n="fileLabel">📎 إرفاق ملف (اختياري)</label>
+            <label for="attachment" data-i18n="fileLabel">📎 إرفاق مستند (اختياري)</label>
             <div class="file-input-wrapper">
                 <span class="file-icon"><i class="fas fa-cloud-upload-alt"></i></span>
                 <span class="file-label" id="fileLabel" data-i18n="fileDefault">اختر ملف... (صور، PDF، Word)</span>
@@ -308,13 +489,28 @@
             </div>
         </div>
 
+        <!-- الإقرار والتوثيق -->
+        <div class="consent-group">
+            <input type="checkbox" id="consent" name="consent" required>
+            <label for="consent" data-i18n="consentText">أقر بأن جميع المعلومات المذكورة أعلاه صحيحة، وأتحمل مسؤولية ذلك.</label>
+        </div>
+
+        <!-- زر الإرسال -->
         <button type="submit" class="btn-submit" id="submitBtn" data-i18n="submitBtn">
             <i class="fas fa-paper-plane"></i> إرسال الطلب
         </button>
     </form>
 
-    <div class="footer" data-i18n="footerText">
-        <i class="fas fa-lock"></i> يتم إرسال طلبك بشكل آمن ومباشر إلى الإدارة عبر تليجرام
+    <!-- ====== معاينة الطلب (التوثيق المباشر) ====== -->
+    <div class="preview-box">
+        <h3><i class="fas fa-file-signature"></i> <span data-i18n="previewTitle">معاينة الطلب قبل الإرسال</span></h3>
+        <div class="preview-content" id="previewContent">
+            <span class="empty-preview" data-i18n="previewEmpty">سيظهر ملخص طلبك هنا تلقائياً...</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <i class="fas fa-lock"></i> <span data-i18n="footerText">يُرسل طلبك بشكل آمن ومباشر إلى إدارة الموارد البشرية عبر تليجرام</span>
     </div>
 </div>
 
@@ -324,184 +520,231 @@
 <script>
     (function() {
         // ============================================================
-        //  بيانات الترجمة (العربية، الإنجليزية، الأوردو)
+        //  بيانات الترجمة الكاملة
         // ============================================================
         const TRANSLATIONS = {
             ar: {
-                brandName: ' ',
-                subtitle: 'تقديم طلب إلى إدارة الموارد البشرية',
+                subtitle: 'نموذج طلبات الموظفين – إدارة الموارد البشرية',
                 nameLabel: '👤 الاسم الكامل *',
                 namePlaceholder: 'أدخل اسمك الثلاثي',
-                phoneLabel: '📞 رقم الهاتف',
+                idLabel: '🆔 الرقم الوظيفي',
+                idPlaceholder: 'مثل: 00000208',
+                phoneLabel: '📞 رقم الجوال',
                 phonePlaceholder: 'مثال: 0501234567',
-                deptLabel: '🏢 القسم',
-                deptDefault: '-- اختر القسم --',
+                tabLeave: 'إجازة',
+                tabLoan: 'سلفة مالية',
+                tabOther: 'طلب آخر',
+                leaveStart: '📅 تاريخ البدء *',
+                leaveEnd: '📅 تاريخ النهاية *',
+                leaveType: '🏷️ نوع الإجازة *',
+                leaveTypeDefault: '-- اختر النوع --',
+                leaveAnnual: 'سنوية',
+                leaveSick: 'مرضية',
+                leaveEmergency: 'طارئة',
+                leaveUnpaid: 'بدون راتب',
+                leaveReason: '📝 سبب الإجازة *',
+                leaveReasonPlaceholder: 'اذكر سبب طلب الإجازة...',
+                loanAmount: '💰 المبلغ المطلوب (ريال) *',
+                loanAmountPlaceholder: 'مثل: 1000',
+                loanRepayment: '📅 تاريخ السداد المتوقع',
+                loanReason: '📝 سبب السلفة *',
+                loanReasonPlaceholder: 'اذكر سبب طلب السلفة...',
+                otherSubject: '📌 الموضوع *',
+                otherSubjectPlaceholder: 'عنوان الطلب...',
+                otherDetails: '📄 التفاصيل *',
+                otherDetailsPlaceholder: 'اكتب طلبك بالتفصيل...',
+                otherDept: '🏢 القسم المعني',
+                deptHR: 'الموارد البشرية',
                 deptSales: 'المبيعات',
                 deptWarehouse: 'المستودعات',
                 deptProjects: 'المشاريع',
-                deptMarble: 'الرخام',
                 deptFinance: 'المحاسبة',
                 deptVehicles: 'الآليات',
-                deptDesign: 'التصميم',
-                deptMarketing: 'التسويق',
-                deptOther: 'أخرى',
-                typeLabel: '📌 نوع الطلب',
-                typeDefault: '-- اختر نوع الطلب --',
-                typeLeave: 'إجازة',
-                typeLoan: 'سلفة مالية',
-                typeInquiry: 'استفسار',
-                typeComplaint: 'شكوى',
-                typeSuggestion: 'مقترح',
-                typeDataUpdate: 'تحديث بيانات',
-                typeDocRequest: 'طلب مستند',
-                typeOther: 'أخرى',
-                subjectLabel: '📝 الموضوع *',
-                subjectPlaceholder: 'عنوان مختصر للطلب',
-                detailsLabel: '📄 التفاصيل *',
-                detailsPlaceholder: 'اكتب طلبك بالتفصيل...',
-                fileLabel: '📎 إرفاق ملف (اختياري)',
+                fileLabel: '📎 إرفاق مستند (اختياري)',
                 fileDefault: 'اختر ملف... (صور، PDF، Word)',
+                consentText: 'أقر بأن جميع المعلومات المذكورة أعلاه صحيحة، وأتحمل مسؤولية ذلك.',
                 submitBtn: 'إرسال الطلب',
-                footerText: '🔒 يتم إرسال طلبك بشكل آمن ومباشر إلى الإدارة عبر تليجرام',
-                // تنبيهات
-                alertFillRequired: '⚠️ يرجى ملء جميع الحقول الإلزامية (الاسم، الموضوع، التفاصيل).',
+                previewTitle: 'معاينة الطلب قبل الإرسال',
+                previewEmpty: 'سيظهر ملخص طلبك هنا تلقائياً...',
+                footerText: 'يُرسل طلبك بشكل آمن ومباشر إلى إدارة الموارد البشرية عبر تليجرام',
+                // التنبيهات
+                alertFillRequired: '⚠️ يرجى ملء جميع الحقول الإلزامية والموافقة على الإقرار.',
                 alertSuccess: '✅ تم إرسال طلبك بنجاح إلى إدارة الموارد البشرية. سيتم التواصل معك قريباً.',
                 alertWarning: '⚠️ تم إرسال النص، ولكن حدث خطأ أثناء رفع الملف. حاول مرة أخرى.',
                 alertError: '❌ حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
                 alertUnexpected: '❌ حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.',
                 sendingText: 'جاري الإرسال...',
-                // قوالب رسائل التليجرام
+                // قوالب التليجرام
                 tgTitle: '📩 طلب جديد من الموظف',
                 tgName: '👤 الاسم',
-                tgPhone: '📞 رقم الهاتف',
-                tgDept: '🏢 القسم',
+                tgID: '🆔 الرقم الوظيفي',
+                tgPhone: '📞 الجوال',
                 tgType: '📌 نوع الطلب',
-                tgSubject: '📝 الموضوع',
-                tgDetails: '📄 التفاصيل',
+                tgLeavePeriod: '📅 فترة الإجازة',
+                tgLeaveType: '🏷️ نوع الإجازة',
+                tgLeaveReason: '📝 سبب الإجازة',
+                tgLoanAmount: '💰 المبلغ',
+                tgLoanDate: '📅 تاريخ السداد',
+                tgLoanReason: '📝 سبب السلفة',
+                tgOtherSubject: '📌 الموضوع',
+                tgOtherDetails: '📄 التفاصيل',
+                tgDept: '🏢 القسم',
                 tgDate: '🕒 تاريخ الإرسال',
                 tgVia: '📱 مرسل عبر',
                 tgPortal: 'البوابة الإلكترونية',
-                tgAttachment: '📎 مرفق الطلب',
-                tgNotEntered: 'غير مدخل'
+                tgAttachment: '📎 المرفق',
+                tgNotEntered: 'غير مدخل',
+                tgDays: 'عدد الأيام',
+                tgDayUnit: 'يوم'
             },
             en: {
-                brandName: 'Marble',
-                subtitle: 'Submit a request to HR Department',
+                subtitle: 'Employee Request Form – HR Department',
                 nameLabel: '👤 Full Name *',
                 namePlaceholder: 'Enter your full name',
-                phoneLabel: '📞 Phone Number',
+                idLabel: '🆔 Employee ID',
+                idPlaceholder: 'e.g., 00000208',
+                phoneLabel: '📞 Mobile Number',
                 phonePlaceholder: 'e.g., 0501234567',
-                deptLabel: '🏢 Department',
-                deptDefault: '-- Select Department --',
+                tabLeave: 'Leave',
+                tabLoan: 'Loan',
+                tabOther: 'Other',
+                leaveStart: '📅 Start Date *',
+                leaveEnd: '📅 End Date *',
+                leaveType: '🏷️ Leave Type *',
+                leaveTypeDefault: '-- Select Type --',
+                leaveAnnual: 'Annual',
+                leaveSick: 'Sick',
+                leaveEmergency: 'Emergency',
+                leaveUnpaid: 'Unpaid',
+                leaveReason: '📝 Reason for Leave *',
+                leaveReasonPlaceholder: 'State the reason for leave...',
+                loanAmount: '💰 Amount (SAR) *',
+                loanAmountPlaceholder: 'e.g., 1000',
+                loanRepayment: '📅 Expected Repayment Date',
+                loanReason: '📝 Reason for Loan *',
+                loanReasonPlaceholder: 'State the reason for loan...',
+                otherSubject: '📌 Subject *',
+                otherSubjectPlaceholder: 'Request title...',
+                otherDetails: '📄 Details *',
+                otherDetailsPlaceholder: 'Write your request in detail...',
+                otherDept: '🏢 Department',
+                deptHR: 'Human Resources',
                 deptSales: 'Sales',
                 deptWarehouse: 'Warehouse',
                 deptProjects: 'Projects',
-                deptMarble: 'Marble',
                 deptFinance: 'Finance',
                 deptVehicles: 'Vehicles',
-                deptDesign: 'Design',
-                deptMarketing: 'Marketing',
-                deptOther: 'Other',
-                typeLabel: '📌 Request Type',
-                typeDefault: '-- Select Request Type --',
-                typeLeave: 'Leave',
-                typeLoan: 'Loan',
-                typeInquiry: 'Inquiry',
-                typeComplaint: 'Complaint',
-                typeSuggestion: 'Suggestion',
-                typeDataUpdate: 'Data Update',
-                typeDocRequest: 'Document Request',
-                typeOther: 'Other',
-                subjectLabel: '📝 Subject *',
-                subjectPlaceholder: 'Brief title for the request',
-                detailsLabel: '📄 Details *',
-                detailsPlaceholder: 'Write your request in detail...',
-                fileLabel: '📎 Attach File (Optional)',
+                fileLabel: '📎 Attach Document (Optional)',
                 fileDefault: 'Choose file... (Images, PDF, Word)',
-                submitBtn: 'Send Request',
-                footerText: '🔒 Your request is sent securely and directly to management via Telegram',
-                // Alerts
-                alertFillRequired: '⚠️ Please fill in all required fields (Name, Subject, Details).',
-                alertSuccess: '✅ Your request has been successfully sent to HR. You will be contacted shortly.',
-                alertWarning: '⚠️ The text was sent, but an error occurred while uploading the file. Please try again.',
-                alertError: '❌ An error occurred while sending. Check your internet connection and try again.',
+                consentText: 'I confirm that all information provided is accurate and I take full responsibility.',
+                submitBtn: 'Submit Request',
+                previewTitle: 'Preview Request Before Sending',
+                previewEmpty: 'Your request summary will appear here automatically...',
+                footerText: 'Your request is sent securely and directly to HR via Telegram',
+                alertFillRequired: '⚠️ Please fill in all required fields and agree to the consent.',
+                alertSuccess: '✅ Your request has been successfully submitted to HR. You will be contacted shortly.',
+                alertWarning: '⚠️ Text sent, but error occurred while uploading file. Please try again.',
+                alertError: '❌ An error occurred. Check your connection and try again.',
                 alertUnexpected: '❌ An unexpected error occurred. Please try again later.',
                 sendingText: 'Sending...',
-                // Telegram message templates
-                tgTitle: '📩 New request from employee',
+                tgTitle: '📩 New employee request',
                 tgName: '👤 Name',
-                tgPhone: '📞 Phone',
-                tgDept: '🏢 Department',
+                tgID: '🆔 Employee ID',
+                tgPhone: '📞 Mobile',
                 tgType: '📌 Request Type',
-                tgSubject: '📝 Subject',
-                tgDetails: '📄 Details',
+                tgLeavePeriod: '📅 Leave Period',
+                tgLeaveType: '🏷️ Leave Type',
+                tgLeaveReason: '📝 Leave Reason',
+                tgLoanAmount: '💰 Amount',
+                tgLoanDate: '📅 Repayment Date',
+                tgLoanReason: '📝 Loan Reason',
+                tgOtherSubject: '📌 Subject',
+                tgOtherDetails: '📄 Details',
+                tgDept: '🏢 Department',
                 tgDate: '🕒 Sent Date',
                 tgVia: '📱 Sent via',
-                tgPortal: 'Electronic Portal',
-                tgAttachment: '📎 Request Attachment',
-                tgNotEntered: 'Not entered'
+                tgPortal: 'Portal',
+                tgAttachment: '📎 Attachment',
+                tgNotEntered: 'Not entered',
+                tgDays: 'Days count',
+                tgDayUnit: 'day'
             },
             ur: {
-                brandName: 'ماربل',
-                subtitle: 'ایچ آر کو درخواست جمع کروائیں',
+                subtitle: 'ملازمین کی درخواست فارم – ایچ آر ڈیپارٹمنٹ',
                 nameLabel: '👤 مکمل نام *',
                 namePlaceholder: 'اپنا پورا نام درج کریں',
-                phoneLabel: '📞 فون نمبر',
+                idLabel: '🆔 ملازم شناختی نمبر',
+                idPlaceholder: 'مثال: 00000208',
+                phoneLabel: '📞 موبائل نمبر',
                 phonePlaceholder: 'مثال: 0501234567',
-                deptLabel: '🏢 شعبہ',
-                deptDefault: '-- شعبہ منتخب کریں --',
+                tabLeave: 'چھٹی',
+                tabLoan: 'قرضہ',
+                tabOther: 'دیگر',
+                leaveStart: '📅 شروع کی تاریخ *',
+                leaveEnd: '📅 اختتامی تاریخ *',
+                leaveType: '🏷️ چھٹی کی قسم *',
+                leaveTypeDefault: '-- قسم منتخب کریں --',
+                leaveAnnual: 'سالانہ',
+                leaveSick: 'بیماری',
+                leaveEmergency: 'ہنگامی',
+                leaveUnpaid: 'بلا تنخواہ',
+                leaveReason: '📝 چھٹی کی وجہ *',
+                leaveReasonPlaceholder: 'چھٹی کی وجہ تحریر کریں...',
+                loanAmount: '💰 مطلوبہ رقم (ریال) *',
+                loanAmountPlaceholder: 'مثال: 1000',
+                loanRepayment: '📅 متوقع ادائیگی کی تاریخ',
+                loanReason: '📝 قرض کی وجہ *',
+                loanReasonPlaceholder: 'قرض کی وجہ تحریر کریں...',
+                otherSubject: '📌 موضوع *',
+                otherSubjectPlaceholder: 'درخواست کا عنوان...',
+                otherDetails: '📄 تفصیلات *',
+                otherDetailsPlaceholder: 'اپنی درخواست تفصیل سے لکھیں...',
+                otherDept: '🏢 متعلقہ شعبہ',
+                deptHR: 'انسانی وسائل',
                 deptSales: 'سیلز',
                 deptWarehouse: 'گودام',
                 deptProjects: 'پروجیکٹس',
-                deptMarble: 'ماربل',
                 deptFinance: 'فنانس',
                 deptVehicles: 'گاڑیاں',
-                deptDesign: 'ڈیزائن',
-                deptMarketing: 'مارکیٹنگ',
-                deptOther: 'دیگر',
-                typeLabel: '📌 درخواست کی قسم',
-                typeDefault: '-- درخواست کی قسم منتخب کریں --',
-                typeLeave: 'چھٹی',
-                typeLoan: 'قرضہ',
-                typeInquiry: 'انکوائری',
-                typeComplaint: 'شکایت',
-                typeSuggestion: 'تجویز',
-                typeDataUpdate: 'ڈیٹا اپ ڈیٹ',
-                typeDocRequest: 'دستاویز کی درخواست',
-                typeOther: 'دیگر',
-                subjectLabel: '📝 موضوع *',
-                subjectPlaceholder: 'درخواست کا مختصر عنوان',
-                detailsLabel: '📄 تفصیلات *',
-                detailsPlaceholder: 'اپنی درخواست تفصیل سے لکھیں...',
-                fileLabel: '📎 فائل منسلک کریں (اختیاری)',
+                fileLabel: '📎 دستاویز منسلک کریں (اختیاری)',
                 fileDefault: 'فائل منتخب کریں... (تصاویر، PDF، Word)',
+                consentText: 'میں تصدیق کرتا ہوں کہ تمام معلومات درست ہیں اور میں اس کی ذمہ داری لیتا ہوں۔',
                 submitBtn: 'درخواست بھیجیں',
-                footerText: '🔒 آپ کی درخواست محفوظ طریقے سے ٹیلیگرام کے ذریعے انتظامیہ کو بھیجی جاتی ہے',
-                // Alerts
-                alertFillRequired: '⚠️ براہ کرم تمام ضروری فیلڈز پُر کریں (نام، موضوع، تفصیلات)۔',
-                alertSuccess: '✅ آپ کی درخواست کامیابی سے ایچ آر کو بھیج دی گئی ہے۔ جلد ہی آپ سے رابطہ کیا جائے گا۔',
-                alertWarning: '⚠️ متن بھیج دیا گیا، لیکن فائل اپ لوڈ کرتے وقت خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں۔',
-                alertError: '❌ بھیجنے کے دوران خرابی ہوئی۔ اپنے انٹرنیٹ کنیکشن کی جانچ کریں اور دوبارہ کوشش کریں۔',
-                alertUnexpected: '❌ ایک غیر متوقع خرابی ہوئی۔ براہ کرم بعد میں دوبارہ کوشش کریں۔',
+                previewTitle: 'بھیجنے سے پہلے درخواست کا جائزہ',
+                previewEmpty: 'آپ کی درخواست کا خلاصہ یہاں خود بخود ظاہر ہوگا...',
+                footerText: 'آپ کی درخواست محفوظ طریقے سے ٹیلیگرام کے ذریعے ایچ آر کو بھیجی جاتی ہے',
+                alertFillRequired: '⚠️ براہ کرم تمام ضروری فیلڈز پُر کریں اور رضامندی دیں۔',
+                alertSuccess: '✅ آپ کی درخواست کامیابی سے ایچ آر کو بھیج دی گئی۔ جلد رابطہ کیا جائے گا۔',
+                alertWarning: '⚠️ متن بھیج دیا گیا، لیکن فائل اپ لوڈ میں خرابی ہوئی۔ دوبارہ کوشش کریں۔',
+                alertError: '❌ بھیجنے میں خرابی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔',
+                alertUnexpected: '❌ ایک غیر متوقع خرابی ہوئی۔ بعد میں کوشش کریں۔',
                 sendingText: 'بھیجا جا رہا ہے...',
-                // Telegram message templates
                 tgTitle: '📩 ملازم کی نئی درخواست',
                 tgName: '👤 نام',
-                tgPhone: '📞 فون',
-                tgDept: '🏢 شعبہ',
+                tgID: '🆔 شناختی نمبر',
+                tgPhone: '📞 موبائل',
                 tgType: '📌 درخواست کی قسم',
-                tgSubject: '📝 موضوع',
-                tgDetails: '📄 تفصیلات',
-                tgDate: '🕒 بھیجنے کی تاریخ',
+                tgLeavePeriod: '📅 چھٹی کی مدت',
+                tgLeaveType: '🏷️ چھٹی کی قسم',
+                tgLeaveReason: '📝 چھٹی کی وجہ',
+                tgLoanAmount: '💰 رقم',
+                tgLoanDate: '📅 ادائیگی کی تاریخ',
+                tgLoanReason: '📝 قرض کی وجہ',
+                tgOtherSubject: '📌 موضوع',
+                tgOtherDetails: '📄 تفصیلات',
+                tgDept: '🏢 شعبہ',
+                tgDate: '🕒 تاریخ ارسال',
                 tgVia: '📱 بھیجا گیا',
-                tgPortal: 'الیکٹرانک پورٹل',
-                tgAttachment: '📎 درخواست کی منسلک فائل',
-                tgNotEntered: 'درج نہیں'
+                tgPortal: 'پورٹل',
+                tgAttachment: '📎 منسلکہ',
+                tgNotEntered: 'درج نہیں',
+                tgDays: 'دنوں کی تعداد',
+                tgDayUnit: 'دن'
             }
         };
 
         // ============================================================
-        //  البيانات الأساسية
+        //  الإعدادات الأساسية
         // ============================================================
         const BOT_TOKEN = '8281101424:AAEy8R52WKjHsw6G3_YO93xfLuotkTXFncU';
         const CHAT_ID = '-1004424213089';
@@ -514,6 +757,8 @@
         const fileLabel = document.getElementById('fileLabel');
         const alertContainer = document.getElementById('alertContainer');
         const langBtns = document.querySelectorAll('.lang-btn');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const previewContent = document.getElementById('previewContent');
 
         // ============================================================
         //  دوال الترجمة
@@ -522,46 +767,36 @@
             currentLang = lang;
             const t = TRANSLATIONS[lang];
 
-            // تحديث اتجاه الصفحة
-            const html = document.documentElement;
-            if (lang === 'en') {
-                html.dir = 'ltr';
-                html.lang = 'en';
-                document.body.style.textAlign = 'left';
-            } else {
-                html.dir = 'rtl';
-                html.lang = lang;
-                document.body.style.textAlign = 'right';
-            }
+            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+            document.documentElement.lang = lang;
+            document.body.style.textAlign = (lang === 'en') ? 'left' : 'right';
 
-            // تحديث النصوص الثابتة
-            document.getElementById('brandName').textContent = t.brandName;
             document.getElementById('subtitle').textContent = t.subtitle;
 
-            // تحديث النماذج (data-i18n)
+            // تحديث النصوص الثابتة (data-i18n)
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key] !== undefined) {
-                    // إذا كان العنصر يحتوي على <span> مثلاً، نحافظ على البنية
-                    if (key === 'nameLabel' || key === 'subjectLabel' || key === 'detailsLabel') {
-                        // نستبدل النص مع الحفاظ على الـ span
+                    // معالجة الحقول التي تحتوي على علامة * في النص
+                    if (key === 'nameLabel' || key === 'leaveStart' || key === 'leaveEnd' || key === 'leaveType' ||
+                        key === 'leaveReason' || key === 'loanAmount' || key === 'loanReason' ||
+                        key === 'otherSubject' || key === 'otherDetails') {
                         const span = el.querySelector('.required');
-                        const textWithoutSpan = t[key].replace(' *', '').replace('*', '');
+                        let text = t[key].replace(' *', '').replace('*', '');
                         el.childNodes.forEach(node => {
                             if (node.nodeType === Node.TEXT_NODE) {
-                                node.textContent = textWithoutSpan + ' ';
+                                node.textContent = text + ' ';
                             }
                         });
-                        if (span) {
-                            // نضيف النجمة إذا لم تكن موجودة
-                            if (!t[key].includes('*')) {
-                                span.remove();
+                        if (t[key].includes('*')) {
+                            if (!span) {
+                                const newSpan = document.createElement('span');
+                                newSpan.className = 'required';
+                                newSpan.textContent = '*';
+                                el.appendChild(newSpan);
                             }
-                        } else if (t[key].includes('*')) {
-                            const newSpan = document.createElement('span');
-                            newSpan.className = 'required';
-                            newSpan.textContent = '*';
-                            el.appendChild(newSpan);
+                        } else if (span) {
+                            span.remove();
                         }
                     } else {
                         el.textContent = t[key];
@@ -572,52 +807,45 @@
             // تحديث الـ placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
-                if (t[key] !== undefined) {
-                    el.placeholder = t[key];
-                }
+                if (t[key] !== undefined) el.placeholder = t[key];
             });
 
-            // تحديث خيارات الـ select (data-i18n)
+            // تحديث خيارات الـ select (التي تحمل data-i18n)
             document.querySelectorAll('select option[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (t[key] !== undefined) {
-                    el.textContent = t[key];
-                }
+                if (t[key] !== undefined) el.textContent = t[key];
             });
 
-            // تحديث زر التبديل النشط
+            // أزرار اللغة
             langBtns.forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
 
-            // تحديث اسم الملف إذا كان موجوداً
+            // اسم الملف
             if (fileInput.files.length > 0) {
-                const fileName = fileInput.files[0].name;
-                const size = (fileInput.files[0].size / 1024).toFixed(1);
-                fileLabel.textContent = fileName + ' (' + size + ' KB)';
+                const f = fileInput.files[0];
+                fileLabel.textContent = f.name + ' (' + (f.size / 1024).toFixed(1) + ' KB)';
             } else {
                 fileLabel.textContent = t.fileDefault;
             }
+
+            // تحديث المعاينة
+            updatePreview();
         }
 
         // ============================================================
-        //  دوال الإشعارات
+        //  دوال التنبيهات
         // ============================================================
         function showAlert(messageKey, type = 'success') {
             const t = TRANSLATIONS[currentLang];
-            const message = t[messageKey] || messageKey;
-            const icons = {
-                success: 'fa-check-circle',
-                error: 'fa-exclamation-circle',
-                warning: 'fa-info-circle'
-            };
+            const msg = t[messageKey] || messageKey;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-info-circle' };
             alertContainer.innerHTML = `
                 <div class="alert alert-${type}">
-                    <i class="fas ${icons[type] || 'fa-info-circle'}"></i>
-                    ${message}
+                    <i class="fas ${icons[type] || 'fa-info-circle'}"></i> ${msg}
                 </div>
             `;
-            setTimeout(() => { alertContainer.innerHTML = ''; }, 8000);
+            setTimeout(() => { alertContainer.innerHTML = ''; }, 9000);
         }
 
         // ============================================================
@@ -631,42 +859,155 @@
                 parse_mode: 'HTML',
                 disable_web_page_preview: true
             });
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params
-            });
-            return response.ok;
+            const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params });
+            return resp.ok;
         }
 
         async function sendTelegramFile(file, caption) {
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
-            const formData = new FormData();
-            formData.append('chat_id', CHAT_ID);
-            formData.append('document', file, file.name);
-            formData.append('caption', caption);
-            formData.append('parse_mode', 'HTML');
-            const response = await fetch(url, { method: 'POST', body: formData });
-            return response.ok;
+            const fd = new FormData();
+            fd.append('chat_id', CHAT_ID);
+            fd.append('document', file, file.name);
+            fd.append('caption', caption);
+            fd.append('parse_mode', 'HTML');
+            const resp = await fetch(url, { method: 'POST', body: fd });
+            return resp.ok;
         }
+
+        // ============================================================
+        //  معاينة الطلب (التوثيق المباشر)
+        // ============================================================
+        function getActiveTab() {
+            for (let btn of tabBtns) {
+                if (btn.classList.contains('active')) return btn.dataset.tab;
+            }
+            return 'leaveTab';
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function updatePreview() {
+            const t = TRANSLATIONS[currentLang];
+            const activeTab = getActiveTab();
+            const name = document.getElementById('name').value.trim() || t.tgNotEntered;
+            const id = document.getElementById('employee_id').value.trim() || t.tgNotEntered;
+            const phone = document.getElementById('phone').value.trim() || t.tgNotEntered;
+
+            let lines = [];
+            lines.push(`📌 ${t.tgTitle}`);
+            lines.push(`━━━━━━━━━━━━━━`);
+            lines.push(`${t.tgName}: ${name}`);
+            lines.push(`${t.tgID}: ${id}`);
+            lines.push(`${t.tgPhone}: ${phone}`);
+
+            let typeLabel = '';
+            if (activeTab === 'leaveTab') typeLabel = t.tabLeave;
+            else if (activeTab === 'loanTab') typeLabel = t.tabLoan;
+            else typeLabel = t.tabOther;
+            lines.push(`${t.tgType}: ${typeLabel}`);
+
+            if (activeTab === 'leaveTab') {
+                const start = document.getElementById('leave_start').value || t.tgNotEntered;
+                const end = document.getElementById('leave_end').value || t.tgNotEntered;
+                const ltype = document.getElementById('leave_type');
+                const ltypeText = ltype.options[ltype.selectedIndex]?.text || t.tgNotEntered;
+                const reason = document.getElementById('leave_reason').value.trim() || t.tgNotEntered;
+                // حساب عدد الأيام
+                let days = '';
+                if (start && end) {
+                    const d1 = new Date(start), d2 = new Date(end);
+                    if (d2 >= d1) {
+                        const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
+                        days = ` (${diff} ${t.tgDayUnit})`;
+                    }
+                }
+                lines.push(`${t.tgLeavePeriod}: ${start} → ${end} ${days}`);
+                lines.push(`${t.tgLeaveType}: ${ltypeText}`);
+                lines.push(`${t.tgLeaveReason}: ${reason}`);
+            } else if (activeTab === 'loanTab') {
+                const amount = document.getElementById('loan_amount').value || t.tgNotEntered;
+                const date = document.getElementById('loan_date').value || t.tgNotEntered;
+                const reason = document.getElementById('loan_reason').value.trim() || t.tgNotEntered;
+                lines.push(`${t.tgLoanAmount}: ${amount} ريال`);
+                lines.push(`${t.tgLoanDate}: ${date}`);
+                lines.push(`${t.tgLoanReason}: ${reason}`);
+            } else { // otherTab
+                const subject = document.getElementById('other_subject').value.trim() || t.tgNotEntered;
+                const details = document.getElementById('other_details').value.trim() || t.tgNotEntered;
+                const dept = document.getElementById('other_dept');
+                const deptText = dept.options[dept.selectedIndex]?.text || t.tgNotEntered;
+                lines.push(`${t.tgOtherSubject}: ${subject}`);
+                lines.push(`${t.tgOtherDetails}: ${details}`);
+                lines.push(`${t.tgDept}: ${deptText}`);
+            }
+
+            // تاريخ المعاينة
+            const now = new Date();
+            const dateStr = now.toLocaleString(currentLang === 'en' ? 'en-US' : (currentLang === 'ur' ? 'ur-PK' : 'ar-EG'), { hour12: true });
+            lines.push(`━━━━━━━━━━━━━━`);
+            lines.push(`${t.tgDate}: ${dateStr}`);
+
+            previewContent.innerHTML = lines.join('\n');
+        }
+
+        // تحديث المعاينة عند تغيير أي حقل
+        document.addEventListener('input', updatePreview);
+        document.addEventListener('change', updatePreview);
+
+        // ============================================================
+        //  تبديل التبويبات
+        // ============================================================
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const tabId = this.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                updatePreview();
+            });
+        });
 
         // ============================================================
         //  معالج إرسال النموذج
         // ============================================================
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-
             const t = TRANSLATIONS[currentLang];
 
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const department = document.getElementById('department').value || t.deptOther;
-            const requestType = document.getElementById('request_type').value || t.typeOther;
-            const subject = document.getElementById('subject').value.trim();
-            const details = document.getElementById('details').value.trim();
-            const file = document.getElementById('attachment').files[0];
+            // التحقق من الإقرار
+            const consent = document.getElementById('consent').checked;
+            if (!consent) {
+                showAlert('alertFillRequired', 'error');
+                return;
+            }
 
-            if (!name || !subject || !details) {
+            const activeTab = getActiveTab();
+            const name = document.getElementById('name').value.trim();
+            const id = document.getElementById('employee_id').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            // التحقق من الحقول حسب التبويب النشط
+            let valid = true;
+            if (!name) valid = false;
+            if (activeTab === 'leaveTab') {
+                if (!document.getElementById('leave_start').value) valid = false;
+                if (!document.getElementById('leave_end').value) valid = false;
+                if (!document.getElementById('leave_type').value) valid = false;
+                if (!document.getElementById('leave_reason').value.trim()) valid = false;
+            } else if (activeTab === 'loanTab') {
+                if (!document.getElementById('loan_amount').value) valid = false;
+                if (!document.getElementById('loan_reason').value.trim()) valid = false;
+            } else {
+                if (!document.getElementById('other_subject').value.trim()) valid = false;
+                if (!document.getElementById('other_details').value.trim()) valid = false;
+            }
+
+            if (!valid) {
                 showAlert('alertFillRequired', 'error');
                 return;
             }
@@ -675,39 +1016,77 @@
             submitBtn.innerHTML = `<span class="spinner"></span> ${t.sendingText}`;
 
             try {
+                // بناء الرسالة النهائية للتليجرام
+                let lines = [];
                 const now = new Date();
                 const dateStr = now.toLocaleString(currentLang === 'en' ? 'en-US' : (currentLang === 'ur' ? 'ur-PK' : 'ar-EG'), { hour12: true });
 
-                // بناء رسالة التليجرام باللغة المختارة
-                const telegramText =
-`${t.tgTitle}
-━━━━━━━━━━━━━━━━━━━━━
-${t.tgName}: ${escapeHtml(name)}
-${t.tgPhone}: ${phone || t.tgNotEntered}
-${t.tgDept}: ${escapeHtml(department)}
-${t.tgType}: ${escapeHtml(requestType)}
-${t.tgSubject}: ${escapeHtml(subject)}
-━━━━━━━━━━━━━━━━━━━━━
-${t.tgDetails}:
-${escapeHtml(details)}
-━━━━━━━━━━━━━━━━━━━━━
-${t.tgDate}: ${dateStr}
-${t.tgVia}: ${t.tgPortal}`;
+                lines.push(`<b>${t.tgTitle}</b>`);
+                lines.push(`━━━━━━━━━━━━━━━━━━━━━`);
+                lines.push(`<b>${t.tgName}:</b> ${escapeHtml(name)}`);
+                if (id) lines.push(`<b>${t.tgID}:</b> ${escapeHtml(id)}`);
+                if (phone) lines.push(`<b>${t.tgPhone}:</b> ${escapeHtml(phone)}`);
 
-                let textSent = false;
+                let typeLabel = '';
+                if (activeTab === 'leaveTab') typeLabel = t.tabLeave;
+                else if (activeTab === 'loanTab') typeLabel = t.tabLoan;
+                else typeLabel = t.tabOther;
+                lines.push(`<b>${t.tgType}:</b> ${typeLabel}`);
+
+                if (activeTab === 'leaveTab') {
+                    const start = document.getElementById('leave_start').value;
+                    const end = document.getElementById('leave_end').value;
+                    const ltype = document.getElementById('leave_type');
+                    const ltypeText = ltype.options[ltype.selectedIndex]?.text || t.tgNotEntered;
+                    const reason = document.getElementById('leave_reason').value.trim();
+                    let days = '';
+                    if (start && end) {
+                        const d1 = new Date(start), d2 = new Date(end);
+                        if (d2 >= d1) {
+                            const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
+                            days = ` (${diff} ${t.tgDayUnit})`;
+                        }
+                    }
+                    lines.push(`<b>${t.tgLeavePeriod}:</b> ${start} → ${end} ${days}`);
+                    lines.push(`<b>${t.tgLeaveType}:</b> ${escapeHtml(ltypeText)}`);
+                    lines.push(`<b>${t.tgLeaveReason}:</b> ${escapeHtml(reason)}`);
+                } else if (activeTab === 'loanTab') {
+                    const amount = document.getElementById('loan_amount').value;
+                    const date = document.getElementById('loan_date').value || t.tgNotEntered;
+                    const reason = document.getElementById('loan_reason').value.trim();
+                    lines.push(`<b>${t.tgLoanAmount}:</b> ${amount} ريال`);
+                    lines.push(`<b>${t.tgLoanDate}:</b> ${date}`);
+                    lines.push(`<b>${t.tgLoanReason}:</b> ${escapeHtml(reason)}`);
+                } else {
+                    const subject = document.getElementById('other_subject').value.trim();
+                    const details = document.getElementById('other_details').value.trim();
+                    const dept = document.getElementById('other_dept');
+                    const deptText = dept.options[dept.selectedIndex]?.text || t.tgNotEntered;
+                    lines.push(`<b>${t.tgOtherSubject}:</b> ${escapeHtml(subject)}`);
+                    lines.push(`<b>${t.tgOtherDetails}:</b> ${escapeHtml(details)}`);
+                    lines.push(`<b>${t.tgDept}:</b> ${escapeHtml(deptText)}`);
+                }
+
+                lines.push(`━━━━━━━━━━━━━━━━━━━━━`);
+                lines.push(`<b>${t.tgDate}:</b> ${dateStr}`);
+                lines.push(`<b>${t.tgVia}:</b> ${t.tgPortal}`);
+
+                const telegramText = lines.join('\n');
+
+                let textSent = await sendTelegramMessage(telegramText);
                 let fileSent = true;
-
-                textSent = await sendTelegramMessage(telegramText);
-
+                const file = fileInput.files[0];
                 if (file) {
-                    const caption = `${t.tgAttachment}\n👤 ${escapeHtml(name)}\n📌 ${escapeHtml(subject)}`;
-                    fileSent = await sendTelegramFile(file, caption);
+                    const cap = `${t.tgAttachment}\n👤 ${escapeHtml(name)}`;
+                    fileSent = await sendTelegramFile(file, cap);
                 }
 
                 if (textSent && (fileSent || !file)) {
                     showAlert('alertSuccess', 'success');
                     form.reset();
                     fileLabel.textContent = t.fileDefault;
+                    document.getElementById('consent').checked = false;
+                    updatePreview();
                 } else if (textSent && !fileSent) {
                     showAlert('alertWarning', 'warning');
                 } else {
@@ -719,43 +1098,37 @@ ${t.tgVia}: ${t.tgPortal}`;
                 showAlert('alertUnexpected', 'error');
             } finally {
                 submitBtn.disabled = false;
-                const icon = '<i class="fas fa-paper-plane"></i> ';
-                submitBtn.innerHTML = icon + t.submitBtn;
+                submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> ${t.submitBtn}`;
             }
         });
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-        }
-
         // ============================================================
-        //  ربط أحداث التبديل بين اللغات
+        //  أحداث اللغة
         // ============================================================
         langBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                const lang = this.dataset.lang;
-                setLanguage(lang);
+                setLanguage(this.dataset.lang);
             });
         });
 
         // ============================================================
-        //  تغيير اسم الملف المعروض
+        //  اسم الملف
         // ============================================================
         fileInput.addEventListener('change', function() {
             const t = TRANSLATIONS[currentLang];
             if (this.files.length > 0) {
-                fileLabel.textContent = this.files[0].name + ' (' + (this.files[0].size / 1024).toFixed(1) + ' KB)';
+                const f = this.files[0];
+                fileLabel.textContent = f.name + ' (' + (f.size / 1024).toFixed(1) + ' KB)';
             } else {
                 fileLabel.textContent = t.fileDefault;
             }
         });
 
         // ============================================================
-        //  بدء التشغيل (اللغة الافتراضية)
+        //  بدء التشغيل
         // ============================================================
         setLanguage('ar');
+        updatePreview();
     })();
 </script>
 </body>
