@@ -965,15 +965,12 @@ function buildTelegramHtml(data) {
    ============================================================ */
 function buildPdfHtml(data) {
     const t = TRANSLATIONS[currentLang];
-
-    // التاريخ بصيغة DD.MM.YYYY
     const now = new Date();
     const day   = String(now.getDate()).padStart(2, '0');
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const year  = now.getFullYear();
     const formattedDate = `${day}.${month}.${year}`;
 
-    // ===== تحديد الموضوع ونص الخطاب حسب نوع الطلب =====
     let subject = '';
     let bodyParagraphs = [];
 
@@ -984,7 +981,6 @@ function buildPdfHtml(data) {
         const startFmt  = formatDateDMY(data.leaveStart);
         const endFmt    = formatDateDMY(data.leaveEnd);
         const reason    = escapeHtml(data.leaveReason);
-
         bodyParagraphs = [
             `أرجو منكم التكرم بالموافقة على منحي إجازة <b>${escapeHtml(leaveType)}</b> لمدة ( <b>${daysCount}</b> ) يوم،`,
             `تبدأ من تاريخ <b>${startFmt}</b> وتنتهي بتاريخ <b>${endFmt}</b>.`,
@@ -1000,75 +996,35 @@ function buildPdfHtml(data) {
         ];
     } else {
         subject = escapeHtml(data.otherSubject) || 'طلب';
-        bodyParagraphs = [
-            escapeHtml(data.otherDetails)
-        ];
+        bodyParagraphs = [escapeHtml(data.otherDetails)];
     }
 
     return `
     <div style="width:794px; padding:45px 55px 40px; background:#ffffff; direction:rtl; font-family:'Segoe UI', Tahoma, Arial, sans-serif; color:#1a2634; box-sizing:border-box; line-height:1.9;">
-
-        <!-- ترويسة الشركة -->
         <div style="text-align:center; border-bottom:3px double #b8862c; padding-bottom:16px; margin-bottom:26px;">
-            <h1 style="margin:0 0 6px; font-size:22px; color:#1a2634; font-weight:800; letter-spacing:0;">
-                شركة فالنسيا لتجارة الرخام والحجر الطبيعي ذ.م.م
-            </h1>
-            <p style="margin:0; color:#b8862c; font-size:12px; font-weight:600; letter-spacing:0.5px;">
-                VALENCIA MARBLE &amp; NATURAL STONE TR. L.L.C
-            </p>
+            <h1 style="margin:0 0 6px; font-size:22px; color:#1a2634; font-weight:800;">شركة فالنسيا لتجارة الرخام والحجر الطبيعي ذ.م.م</h1>
+            <p style="margin:0; color:#b8862c; font-size:12px; font-weight:600;">VALENCIA MARBLE &amp; NATURAL STONE TR. L.L.C</p>
         </div>
-
-        <!-- التاريخ -->
         <div style="text-align:left; font-size:14px; margin-bottom:18px; color:#334155;">
             <b style="color:#1a2634;">التاريخ:</b> ${formattedDate}
         </div>
-
-        <!-- الموضوع -->
         <div style="text-align:center; font-size:17px; font-weight:800; color:#1a2634; margin:18px 0 26px;">
             الموضوع: <span style="border-bottom:1.5px solid #b8862c; padding:0 8px 2px;">${subject}</span>
         </div>
-
-        <!-- التحية -->
-        <p style="margin:0 0 16px; font-size:15px; color:#1a2634; font-weight:600;">
-            إلى إدارة الشركة المحترمة،
-        </p>
-
-        <!-- متن الخطاب -->
-        <div style="font-size:15px; text-align:justify; color:#1e293b; line-height:2; margin-bottom:8px;">
+        <p style="margin:0 0 16px; font-size:15px; color:#1a2634; font-weight:600;">إلى إدارة الشركة المحترمة،</p>
+        <div style="font-size:15px; text-align:justify; color:#1e293b; line-height:2;">
             ${bodyParagraphs.map(p => `<p style="margin:0 0 10px;">${p}</p>`).join('')}
         </div>
-
-        <!-- الخاتمة -->
-        <p style="margin:24px 0 0; font-size:15px; color:#1a2634;">شاكرين تعاونكم وتفهمكم.</p>
-        <p style="margin:6px 0 0;  font-size:15px; color:#1a2634;">وتفضلوا بقبول فائق الاحترام،،</p>
-
-        <!-- بيانات الموظف -->
-        <div style="margin-top:40px; padding:18px 20px; background:#f8fafc; border-right:4px solid #b8862c; border-radius:8px; font-size:14px; color:#1a2634;">
-            <div style="margin-bottom:10px;">
-                <b style="display:inline-block; min-width:100px; color:#6b7b8f;">اسم الموظف:</b>
-                ${escapeHtml(data.name) || '—'}
-            </div>
-            <div>
-                <b style="display:inline-block; min-width:100px; color:#6b7b8f;">رقم الهوية:</b>
-                ${escapeHtml(data.id) || '—'}
-            </div>
+        <p style="margin:24px 0 0; font-size:15px;">شاكرين تعاونكم وتفهمكم.</p>
+        <p style="margin:6px 0 0;  font-size:15px;">وتفضلوا بقبول فائق الاحترام،،</p>
+        <div style="margin-top:40px; padding:18px 20px; background:#f8fafc; border-right:4px solid #b8862c; border-radius:8px; font-size:14px;">
+            <div style="margin-bottom:10px;"><b style="color:#6b7b8f;">اسم الموظف:</b> ${escapeHtml(data.name) || '—'}</div>
+            <div><b style="color:#6b7b8f;">رقم الهوية:</b> ${escapeHtml(data.id) || '—'}</div>
         </div>
-
-        <!-- التوقيعات -->
-        <div style="display:flex; justify-content:space-between; margin-top:70px; font-size:14px; color:#1a2634;">
-            <div style="text-align:center; width:44%;">
-                <div style="border-top:1.5px solid #1a2634; padding-top:10px; font-weight:700;">
-                    توقيع المسؤول عن العامل
-                </div>
-            </div>
-            <div style="text-align:center; width:44%;">
-                <div style="border-top:1.5px solid #1a2634; padding-top:10px; font-weight:700;">
-                    توقيع العامل
-                </div>
-            </div>
+        <div style="display:flex; justify-content:space-between; margin-top:70px; font-size:14px;">
+            <div style="text-align:center; width:44%;"><div style="border-top:1.5px solid #1a2634; padding-top:10px; font-weight:700;">توقيع المسؤول عن العامل</div></div>
+            <div style="text-align:center; width:44%;"><div style="border-top:1.5px solid #1a2634; padding-top:10px; font-weight:700;">توقيع العامل</div></div>
         </div>
-
-        <!-- تذييل -->
         <div style="margin-top:50px; text-align:center; font-size:10px; color:#94a3b8; border-top:1px dashed #e2e8f0; padding-top:14px;">
             ${t.footerText}
         </div>
