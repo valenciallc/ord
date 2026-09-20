@@ -442,7 +442,7 @@
         <div id="loanTab" class="tab-content">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="loan_amount" data-i18n="loanAmount">💰 المبلغ المطلوب (ريال) <span class="required">*</span></label>
+                    <label for="loan_amount" data-i18n="loanAmount">💰 المبلغ المطلوب (درهم) <span class="required">*</span></label>
                     <input type="number" id="loan_amount" name="loan_amount" min="1" step="0.5" placeholder="مثل: 1000" data-i18n-placeholder="loanAmountPlaceholder">
                 </div>
                 <div class="form-group">
@@ -544,7 +544,7 @@
                 leaveUnpaid: 'بدون راتب',
                 leaveReason: '📝 سبب الإجازة *',
                 leaveReasonPlaceholder: 'اذكر سبب طلب الإجازة...',
-                loanAmount: '💰 المبلغ المطلوب (ريال) *',
+                loanAmount: '💰 المبلغ المطلوب (درهم) *',
                 loanAmountPlaceholder: 'مثل: 1000',
                 loanRepayment: '📅 تاريخ السداد المتوقع',
                 loanReason: '📝 سبب السلفة *',
@@ -932,7 +932,7 @@
                 const amount = document.getElementById('loan_amount').value || t.tgNotEntered;
                 const date = document.getElementById('loan_date').value || t.tgNotEntered;
                 const reason = document.getElementById('loan_reason').value.trim() || t.tgNotEntered;
-                lines.push(`${t.tgLoanAmount}: ${amount} ريال`);
+                lines.push(`${t.tgLoanAmount}: ${amount} درهم`);
                 lines.push(`${t.tgLoanDate}: ${date}`);
                 lines.push(`${t.tgLoanReason}: ${reason}`);
             } else { // otherTab
@@ -1054,7 +1054,7 @@
                     const amount = document.getElementById('loan_amount').value;
                     const date = document.getElementById('loan_date').value || t.tgNotEntered;
                     const reason = document.getElementById('loan_reason').value.trim();
-                    lines.push(`<b>${t.tgLoanAmount}:</b> ${amount} ريال`);
+                    lines.push(`<b>${t.tgLoanAmount}:</b> ${amount} درهم`);
                     lines.push(`<b>${t.tgLoanDate}:</b> ${date}`);
                     lines.push(`<b>${t.tgLoanReason}:</b> ${escapeHtml(reason)}`);
                 } else {
